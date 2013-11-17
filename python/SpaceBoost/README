@@ -1,0 +1,30 @@
+2013nov11
+
+This directory contains the Boost generated python wrappers for the
+Cartesian space object.
+
+It assumes boost, http://www.boost.org/more/getting_started/unix-variants.html,
+has been installed.  See the boost documentation for python in other locations
+options if you do not want to alter your default.
+
+Once boost is installed, this builds like other python modules:
+
+python setup.py build
+
+The Makefile will do this.
+
+setup.py assumes libSpace.dylib is built and located in ../../libSpace.
+
+Once built you will need to add the module to your python path to use.
+setenv.sh show some examples of how I set this on my iMac during
+development.
+
+pylaunch.sh will start an interpreter to test with.
+
+TODO: look for boost update to
+
+  1) support std::shared_ptr
+  2) __repr__ different from __str__ operator<<()
+  3) exceptions
+
+-lrm

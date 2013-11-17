@@ -1,0 +1,9 @@
+2013nov16
+
+This repo contains examples of how to wrap c++ objects in python. It is an
+implementation of a Cartesian coordinate system built around three double 
+precision floating point numbers.
+
+
+-lrm
+

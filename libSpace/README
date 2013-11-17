@@ -1,0 +1,11 @@
+2013nov16
+
+This is my C++ implementation of a Cartesian space object built around
+three doubles for x, y and z for use with computer models of space
+craft in transfer orbits.
+
+This uses Google's gtest, http://code.google.com/p/googletest/, for
+unit testing. The makefile uses GTEST_DIR to locate where it is
+installed. You do not need gtest to build the library.
+
+-lrm

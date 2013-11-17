@@ -1,0 +1,27 @@
+# Ignore these files 
+
+*.gignore
+
+# emacs backups
+*~
+
+# build output
+*.[oa]
+
+# dylib
+*.dylib
+
+# mac stuff
+.DS_Store
+
+# python cruft
+*.pyc
+
+# executables
+libSpace/space_unittest
+libSpace/mepsilon
+
+# builds
+python/BodyBoost/build
+python/SpaceManual/build
+python/SpaceBoost/build
