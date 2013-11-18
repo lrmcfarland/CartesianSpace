@@ -1,9 +1,15 @@
-2013nov16
+2013 Nov 18
 
 This repo contains examples of how to wrap c++ objects in python. It is an
 implementation of a Cartesian coordinate system built around three double 
-precision floating point numbers.
+precision floating point numbers. The space objects support vector arithmetic
+by overloading the +, -, * and / operators, where * is the dot product and /
+scales. There is a separate function for cross product.
 
+With a c++ simulation model wrapped in python, the position and
+velocity of a given body can easily be converted to a new coordinate
+system (e.g. centered on the moon) or have calculated quantities like
+the angular momentum over time plotted.
 
 -lrm
 
