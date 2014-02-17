@@ -54,6 +54,8 @@ $(TARGETA): $(OBJECTS) $(INCLUDES)
 	$(AR) $(TARGETA) $(OBJECTS)
 	$(RANLIB) $(TARGETA)
 
+all: main
+
 main: main.o $(TARGET)
 	g++ main.o -o main -L. -lSpace
 
