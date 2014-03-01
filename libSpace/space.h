@@ -148,7 +148,7 @@ namespace Cartesian {
   // ---------------------------------------------------
 
   // copy constructor
-  inline space::space(const space::space& a) {
+  inline space::space(const space& a) {
     m_x = a.x();
     m_y = a.y();
     m_z = a.z();
@@ -156,7 +156,7 @@ namespace Cartesian {
 
   // copy assignment
   // TODO use swap http://en.wikipedia.org/wiki/Assignment_operator_(C%2B%2B)
-  inline space& space::operator=(const space::space& rhs) {
+  inline space& space::operator=(const space& rhs) {
     if (this == &rhs) return *this;
     m_x = rhs.x();
     m_y = rhs.y();
@@ -166,11 +166,11 @@ namespace Cartesian {
 
   // ----- bool operators -----
 
-  inline bool space::operator== (const space::space& rhs) const {
+  inline bool space::operator== (const space& rhs) const {
     return x() == rhs.x() && y() == rhs.y() && z() == rhs.z();
   }
 
-  inline bool space::operator!= (const space::space& rhs) const {
+  inline bool space::operator!= (const space& rhs) const {
     return !operator==(rhs);
   }
 
