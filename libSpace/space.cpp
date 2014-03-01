@@ -23,6 +23,7 @@
 // ==================================================================
 
 
+#include <stdlib.h>  /* strtod */
 #include <space.h>
 
 // stand-ins until c++ 11
@@ -183,7 +184,7 @@ Cartesian::rotator::rotator(const Cartesian::rotator& rhs) :
 
 // TODO use swap http://en.wikipedia.org/wiki/Assignment_operator_(C%2B%2B)
 Cartesian::rotator&
-Cartesian::rotator::operator=(const Cartesian::rotator::rotator& rhs) {
+Cartesian::rotator::operator=(const Cartesian::rotator& rhs) {
   if (this == &rhs) return *this;
   axis(rhs.axis());
   m_rotation_matrix = rhs.m_rotation_matrix;
