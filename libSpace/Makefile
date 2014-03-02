@@ -19,7 +19,7 @@ CXX      = g++
 CXXFLAGS = -g -W -Wall -fPIC -I.
 
 LINK     = g++
-LFLAGS  = -headerpad_max_install_names -single_module -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -install_name libSpace.1.dylib
+DYLFLAGS  = -headerpad_max_install_names -single_module -dynamiclib -compatibility_version 1.0 -current_version 1.0.0 -install_name libSpace.1.dylib
 
 RM       = rm -f
 LN       = ln -s
@@ -32,42 +32,39 @@ INCLUDES = space.h
 SOURCES = space.cpp
 OBJECTS = space.o
 
-TARGET  = libSpace.1.0.0.dylib
-TARGETA = libSpace.a
-TARGET0 = libSpace.dylib
-TARGET1 = libSpace.1.dylib
-TARGET2 = libSpace.1.0.dylib
+TARGET_A = libSpace.a
 
 # Detect operating system flavor.
 UNAME   := $(shell uname)
 
-# .dylib is only for Darwin, so remove the target.
-ifneq ($(UNAME), Darwin)
-TARGET = 
-TARGET0 = 
-TARGET1 = 
-TARGET2 = 
+# .dylib is only for Darwin
+ifeq ($(UNAME), Darwin)
+TARGET_D = libSpace.1.0.0.dylib
+TARGET_D0 = libSpace.dylib
+TARGET_D1 = libSpace.1.dylib
+TARGET_D2 = libSpace.1.0.dylib
 endif
 
 # builds
 
-$(TARGET): $(OBJECTS) $(INCLUDES)
-	-$(RM) $(TARGET) $(TARGET0) $(TARGET1) $(TARGET2)
-	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS)
-	-$(LN) $(TARGET) $(TARGET0)
-	-$(LN) $(TARGET) $(TARGET1)
-	-$(LN) $(TARGET) $(TARGET2)
+all: staticlib $(TARGET_D)
 
-staticlib: $(TARGETA)
+staticlib: $(TARGET_A)
 
-$(TARGETA): $(OBJECTS) $(INCLUDES)
-	-$(RM) $(TARGETA)
-	$(AR) $(TARGETA) $(OBJECTS)
-	$(RANLIB) $(TARGETA)
+$(TARGET_A): $(OBJECTS) $(INCLUDES)
+	-$(RM) $(TARGET_A)
+	$(AR) $(TARGET_A) $(OBJECTS)
+	$(RANLIB) $(TARGET_A)
 
-all: staticlib main
+$(TARGET_D): $(OBJECTS) $(INCLUDES)
+	-$(RM) $(TARGET_D) $(TARGET_D0) $(TARGET_D1) $(TARGET_D2)
+	$(LINK) $(DYLFLAGS) -o $(TARGET_D) $(OBJECTS)
+	-$(LN) $(TARGET_D) $(TARGET_D0)
+	-$(LN) $(TARGET_D) $(TARGET_D1)
+	-$(LN) $(TARGET_D) $(TARGET_D2)
 
-main: main.o $(TARGET)
+
+main: main.o $(TARGET_A)
 	g++ main.o -o main -L. -lSpace
 
 mepsilon: mepsilon.c
@@ -76,7 +73,7 @@ mepsilon: mepsilon.c
 test: space_unittest
 	./space_unittest
 
-space_unittest: space_unittest.o $(TARGET)
+space_unittest: space_unittest.o $(TARGET_D)
 	g++ -L$(GTEST_DIR) -lgtest -L. -lSpace space_unittest.o -o space_unittest
 
 space_unittest.o: space_unittest.cpp
@@ -90,9 +87,9 @@ clean:
 	-$(RM) space_unittest
 	-$(RM) space_unittest.o
 	-$(RM) $(OBJECTS)
-	-$(RM) $(TARGET0) $(TARGET1) $(TARGET2)
-	-$(RM) $(TARGET)
-	-$(RM) $(TARGETA)
+	-$(RM) $(TARGET_D0) $(TARGET_D1) $(TARGET_D2)
+	-$(RM) $(TARGET_D)
+	-$(RM) $(TARGET_A)
 
 clobber: clean
 	-$(RM) *~

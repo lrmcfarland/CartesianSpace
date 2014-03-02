@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-# Takes make target from command line
-# Walks source directories in order, i.e. libs before pys
+# Takes make target from command line and walks source directories in
+# order, i.e. libs before pys.
 
 libs="./libSpace"
 pys="./python/SpaceManual ./python/SpaceBoost"
@@ -11,8 +11,8 @@ pys="./python/SpaceManual ./python/SpaceBoost"
 # ---------------------
 
 make_me() {
-    # takes make target and list of directories. changes working
-    # directory to each directory list element and runs make target
+    # takes make target and list of directories, changes working
+    # directory to each directory list element and makes the target.
 
     home_dir=`pwd`
 
