@@ -197,11 +197,25 @@ TEST(SpaceTest, Multiply) {
   EXPECT_EQ(1.0, v.y());
   EXPECT_EQ(1.0, v.z());
 
+}
+
+TEST(SpaceTest, DotProduct) {
+
   // dot product
   Cartesian::space dx(1, 2, 3);
   EXPECT_EQ(1.0, dx * Cartesian::space::Ux);
   EXPECT_EQ(2.0, dx * Cartesian::space::Uy);
   EXPECT_EQ(3.0, dx * Cartesian::space::Uz);
+
+  // dot product
+  Cartesian::space dx2(-1, -2, -3);
+  EXPECT_EQ(-1.0, Cartesian::dot(dx2, Cartesian::space::Ux));
+  EXPECT_EQ(-2.0, Cartesian::dot(dx2, Cartesian::space::Uy));
+  EXPECT_EQ(-3.0, Cartesian::dot(dx2, Cartesian::space::Uz));
+
+}
+
+TEST(SpaceTest, CrossProduct) {
 
   // cross product
   Cartesian::space z = Cartesian::cross(Cartesian::space::Ux,

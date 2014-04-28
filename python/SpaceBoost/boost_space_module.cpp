@@ -73,6 +73,7 @@ BOOST_PYTHON_MODULE(space) {
 
   // functions
   def("cross", Cartesian::cross);
+  def("dot", Cartesian::dot);
 
 
 };
