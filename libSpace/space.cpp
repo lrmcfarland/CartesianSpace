@@ -142,6 +142,11 @@ double Cartesian::operator*(const Cartesian::space& lhs,
   return lhs.x()*rhs.x() + lhs.y()*rhs.y() + lhs.z()*rhs.z();
 }
 
+double Cartesian::dot(const Cartesian::space& lhs,
+		      const Cartesian::space& rhs) {
+  return lhs * rhs;
+}
+
 Cartesian::space Cartesian::cross(const Cartesian::space& a,
 				  const Cartesian::space& b) {
   Cartesian::space tmp;

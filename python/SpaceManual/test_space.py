@@ -254,6 +254,13 @@ class TestSpace(unittest.TestCase):
         self.assertSpaceAreEqual(space.space(0.5, -0.5, 0), c)
 
 
+    def test_dot_product(self):
+        """Test space dot product function"""
+
+        a = space.dot(self.space1, self.space2)
+        self.assertEqual(a, self.dot_prod_space1_space2)
+
+
     def test_normalized(self):
         """Test space normalized"""
 

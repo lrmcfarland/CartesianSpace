@@ -241,6 +241,7 @@ namespace Cartesian {
 
   // vector products
   double operator* (const space& lhs, const space& rhs); // dot product
+  double dot(const space& a, const space& b);  // vector dot product
   space cross(const space& a, const space& b);  // vector cross product
 
   // operator<<

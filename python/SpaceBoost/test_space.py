@@ -205,5 +205,13 @@ class TestSpace(unittest.TestCase):
         self.assertEqual(space.space.Uz.z, z.z)
 
 
+    def test_dot(self):
+        """Test dot product"""
+        a = space.space(self.A, self.B, self.C)
+        a = space.dot(a, a)
+        self.assertAlmostEqual(self.product, a, self.places)
+
+
+
 if __name__ == '__main__':
     unittest.main()

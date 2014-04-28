@@ -478,6 +478,30 @@ static PyObject* cross(PyObject* self, PyObject *args) {
 
 }
 
+// -----------------------
+// ----- dot product -----
+// -----------------------
+
+PyDoc_STRVAR(space_dot__doc__,
+             "Returns the dot product of two space objects");
+
+static PyObject* dot(PyObject* self, PyObject *args) {
+
+  Space* first_space(NULL);
+  Space* second_space(NULL);
+
+  // O is borrowed reference
+  if (!PyArg_ParseTuple(args, "OO", &first_space, &second_space))
+    return NULL;
+
+
+  double a_dot_product(Cartesian::dot(first_space->m_space,
+		                      second_space->m_space));
+
+  return (PyObject*) Py_BuildValue("d", a_dot_product);
+
+}
+
 // ---------------------
 // ----- magnitude -----
 // ---------------------
@@ -537,6 +561,7 @@ static PyObject* normalized(PyObject* self, PyObject *args) {
 
 PyMethodDef space_module_methods[] = {
   {"cross", (PyCFunction) cross, METH_VARARGS, space_cross__doc__},
+  {"dot", (PyCFunction) dot, METH_VARARGS, space_dot__doc__},
   {"magnitude", (PyCFunction) magnitude, METH_VARARGS, space_magnitude__doc__},
   {"normalized", (PyCFunction) normalized, METH_VARARGS, space_normalized__doc__},
   {NULL, NULL}  /* Sentinel */
@@ -559,7 +584,7 @@ PyObject* space_create(const Cartesian::space& a_space) {
 
   // TODO exception handle this
   if (py_space == NULL){
-    PyErr_SetString(space_exception, "cross failed to create space.");
+    PyErr_SetString(space_exception, "failed to create space.");
     return NULL;
   }
 
