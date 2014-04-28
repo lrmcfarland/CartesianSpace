@@ -5,7 +5,7 @@
 # Created:     27 Mar 2009
 # ===============================================================
 
-OSXFLAGS = env ARCHFLAGS="-arch x86_64"
+OSXFLAGS = env ARCHFLAGS="-arch x86_64 -Wno-error=unused-command-line-argument-hard-error-in-future"
 SOURES = space.cpp test_space.py
 
 all: build
