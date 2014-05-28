@@ -5,32 +5,44 @@
 # TODO: add linux support
 #
 
-# python path
+# --------------------------------
+# ----- Cartesian space root -----
+# --------------------------------
 
-if [ -z "$ORBITS_ROOT" ]; then
-    ORBITS_ROOT=../..
-    echo "# ORBITS_ROOT not set. Using" $ORBITS_ROOT
+if [ -n "$CARTESIAN_SPACE_ROOT" ]; then
+    echo "# CARTESIAN_SPACE_ROOT is" $CARTESIAN_SPACE_ROOT
 else
-    echo "# ORBITS_ROOT is" $ORBITS_ROOT
+    CARTESIAN_SPACE_ROOT=../..
+    echo "# CARTESIAN_SPACE_ROOT not set. Using" $CARTESIAN_SPACE_ROOT
 fi
 
-SPACE_SO=`find . -name space.so`
+# ----------------------------
+# ----- set library path -----
+# ----------------------------
 
-if [ -z "$SPACE_SO" ]; then
+CARTESIAN_LIBRARY_PATH=${CARTESIAN_SPACE_ROOT}/libSpace
+export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${CARTESIAN_LIBRARY_PATH}
+
+# ---------------------------
+# ----- set python path -----
+# ---------------------------
+
+SPACE_SO=`find ${CARTESIAN_SPACE_ROOT}/python/SpaceBoost -name space.so`
+
+if [ -n "$SPACE_SO" ]; then
+    echo "# space.so:" $SPACE_SO
+    export PYTHONPATH=${PYTHONPATH}:$(dirname ${SPACE_SO})
+else
     echo "space.so not found"
     exit 1
-else
-    echo "# space.so:" $SPACE_SO # TODO
-    export PYTHONPATH=${PYTHONPATH}:$(dirname ${SPACE_SO})
 fi
 
-# env
-
-ORBITS_LIBRARY_PATH=${ORBITS_ROOT}/libSpace
-export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${ORBITS_LIBRARY_PATH}
+# -----------------------
+# ----- echo result -----
+# -----------------------
 
 echo '# DYLD_LIBRARY_PATH' ${DYLD_LIBRARY_PATH}
 echo '# PYTHONPATH' ${PYTHONPATH}
-echo # linefeed
+echo  # linefeed
 
 # EoF
