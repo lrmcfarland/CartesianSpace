@@ -1,17 +1,37 @@
-2014 March 16
+2014 May 28
 
-This repo contains examples of how to wrap c++ objects in python. It is an
-implementation of a Cartesian coordinate system built around three double 
-precision floating point numbers. The space objects support vector arithmetic
-by overloading the +, -, * and / operators, where * is the dot product and /
-scales. There is a separate function for cross product.
+This is my take on creating a Cartesian three space vector for use in
+physics applications as a full featured C++ object. It has only three
+doubles as the data members for x, y and z. There are a variety of
+accessors and constructors that can build or modify the vector object
+from doubles or strings as well as from the copy and copy assign
+constructors. All of the math operators, their commuted and in place
+variants are overloaded to support vector arithmetic. Additional
+functions including the dot and cross products, rotation opertions as
+well as the output operator<<() are supported.
 
-It is a submodule of my Orbits simulation program. With the c++
-simulation model wrapped in python, the position and velocity of a
+You can literally write:
+
+  Cartesian::space F;
+  double m(0.25);
+  Cartesian::space a(0, 0, -9.81);
+
+  F = m * a;
+
+  std::cout << "The force on the apple is " << F << " m/s2" << std::endl;
+
+A full set of examples can be found in lib/Space/space_unittest.cpp.
+
+I have also wrapped this in python both manually by creating a new
+python type (see python/SpaceManual/space.cpp) and by using boost (see
+python/SpaceBoost/boost_space_module.cpp). Both of these also have a
+full suite of unit tests to serve as examples.
+
+This is used as a submodule of my Orbits simulation program. With the
+C++ simulation model wrapped in python, the position and velocity of a
 given body can easily be converted to a new coordinate system
 (e.g. centered on the moon) or have calculated quantities like the
 angular momentum over time plotted. A demo is available on my web-site
 starbug.com.
 
 -lrm
-
