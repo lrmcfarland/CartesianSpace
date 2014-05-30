@@ -13,19 +13,32 @@ well as the output operator<<() are supported.
 You can literally write:
 
   Cartesian::space F;
-  double m(0.25);
-  Cartesian::space a(0, 0, -9.81);
+  double m(0.25); // kg
+  Cartesian::space a(0, 0, -9.81); // m/s2
 
   F = m * a;
 
-  std::cout << "The force on the apple is " << F << " m/s2" << std::endl;
+  std::cout << "The force on the apple is " << F << " Newtons" << std::endl;
 
 A full set of examples can be found in lib/Space/space_unittest.cpp.
 
 I have also wrapped this in python both manually by creating a new
 python type (see python/SpaceManual/space.cpp) and by using boost (see
-python/SpaceBoost/boost_space_module.cpp). Both of these also have a
-full suite of unit tests to serve as examples.
+python/SpaceBoost/boost_space_module.cpp).
+
+import space
+
+if __name__ == '__main__':
+
+    F = space.space()
+    m = 0.25 # kg
+    a = space.space(0, 0, -9.81) # m/s2
+
+    F = m * a
+
+    print 'The force on the apple is ', F, 'Newtons'
+
+These also have a full suite of unit tests to serve as examples.
 
 This is used as a submodule of my Orbits simulation program. With the
 C++ simulation model wrapped in python, the position and velocity of a
