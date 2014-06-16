@@ -1,217 +1,273 @@
-"""Tests boost space module."""
+#!/usr/bin/env python
+
+"""Unit tests for space objects."""
 
 import math
+import random
+import time
 import unittest
 
 import space
+
 
 class TestSpace(unittest.TestCase):
 
     def setUp(self):
 
-        self.places = 7 # almost equal places
+        """Set up test parameters."""
 
-        self.zero = space.space()
-        self.A = 1.1
-        self.B = 2.2
-        self.C = 3.3
+        self.places = 7 # precision
 
-        self.product = self.A*self.A + self.B*self.B + self.C*self.C
-        self.magnitude = math.sqrt(self.product)
+        # random test points
 
-        self.a_str = '<space><x>1.1</x><y>2.2</y><z>3.3</z></space>'
+        self.lower_range = -1.0e3
+        self.upper_range =  1.0e3
+
+        self.p1 = space.space(random.uniform(self.lower_range, self.upper_range),
+                              random.uniform(self.lower_range, self.upper_range),
+                              random.uniform(self.lower_range, self.upper_range))
+
+        self.p2 = space.space(random.uniform(self.lower_range, self.upper_range),
+                              random.uniform(self.lower_range, self.upper_range),
+                              random.uniform(self.lower_range, self.upper_range))
 
 
-    def test_default_constructors(self):
-        """Test space default constructors"""
+    def assertSpaceAreEqual(self, lhs_space, rhs_space):
+        """Space assert helper method."""
+        self.assertAlmostEqual(lhs_space.x, rhs_space.x, places=self.places)
+        self.assertAlmostEqual(lhs_space.y, rhs_space.y, places=self.places)
+        self.assertAlmostEqual(lhs_space.z, rhs_space.z, places=self.places)
 
+    # -----------------------------
+    # ----- test constructors -----
+    # -----------------------------
+
+    def test_default_constructor(self):
+        """Test default constructor"""
         a = space.space()
         self.assertEqual(0, a.x)
         self.assertEqual(0, a.y)
         self.assertEqual(0, a.z)
+        self.assertSpaceAreEqual(a, space.space.Uo)
 
-        a = space.space(self.A)
-        self.assertEqual(self.A, a.x)
+
+    def test_x_constructor(self):
+        """Test x constructor"""
+        a = space.space(self.p1.x)
+        self.assertEqual(self.p1.x, a.x)
         self.assertEqual(0, a.y)
         self.assertEqual(0, a.z)
 
-        a = space.space(self.A, self.B)
-        self.assertEqual(self.A, a.x)
-        self.assertEqual(self.B, a.y)
+
+    def test_xy_constructor(self):
+        """Test xy constructor"""
+        a = space.space(self.p1.x, self.p1.y)
+        self.assertEqual(self.p1.x, a.x)
+        self.assertEqual(self.p1.y, a.y)
         self.assertEqual(0, a.z)
 
-        a = space.space(self.A, self.B, self.C)
-        self.assertEqual(self.A, a.x)
-        self.assertEqual(self.B, a.y)
-        self.assertEqual(self.C, a.z)
+
+    def test_xyz_constructor(self):
+        """Test xyz constructor"""
+        a = space.space(self.p1.x, self.p1.y, self.p1.z)
+        self.assertSpaceAreEqual(self.p1, a)
 
 
-    def test_copy_constructor(self):
-        """Test space copy constructor"""
+    @unittest.skip('Not available in boost')
+    def test_xyz_constructor2(self):
+        """Test xyz constructor by named args"""
+        a = space.space(z=self.p1.z, x=self.p1.x, y=self.p1.y)
+        self.assertSpaceAreEqual(self.p1, a)
 
-        a = space.space(self.A, self.B, self.C)
-        b = space.space(a)
-        self.assertEqual(self.A, b.x)
-        self.assertEqual(self.B, b.y)
-        self.assertEqual(self.C, b.z)
+
+    def test_xyz_assignments(self):
+        """Test space xyz assignment operators"""
+        a = space.space()
+        a.x = self.p1.x
+        a.y = self.p1.y
+        a.z = self.p1.z
+        self.assertSpaceAreEqual(self.p1, a)
 
 
     def test_copy_assign(self):
-        """Test space copy assign"""
-
-        a = space.space(self.A, self.B, self.C)
-        b = a
-        self.assertEqual(self.A, b.x)
-        self.assertEqual(self.B, b.y)
-        self.assertEqual(self.C, b.z)
+        """Test copy assignment operator"""
+        a = self.p1
+        self.assertSpaceAreEqual(self.p1, a)
 
 
-    def test_accessors(self):
-        """Test space accessors"""
+    def test_string_constructor_exception(self):
+        """Test string constructor exception"""
 
-        a = space.space()
-        a.setX(self.A)
-        a.setY(-self.B)
-        a.setZ(self.C)
-
-        self.assertEqual(self.A, a.getX())
-        self.assertEqual(-self.B, a.getY())
-        self.assertEqual(self.C, a.getZ())
+        self.assertRaises(TypeError, lambda a: space.space(a), 'some_string')
+        self.assertRaises(TypeError, lambda a: space.space(1, a), 'some_string')
+        self.assertRaises(TypeError, lambda a: space.space(1, -1, a), 'some_string')
 
 
-    def test_properties(self):
-        """Test properties"""
+    def test_string_assignment_exception(self):
+        """Test string assignment exception"""
 
-        a = space.space()
-        a.x = self.A
-        a.y = -self.B
-        a.z = self.C
+        self.assertRaises(TypeError, self.p1.x, 'some_string')
+        self.assertRaises(TypeError, self.p1.y, 'some_string')
+        self.assertRaises(TypeError, self.p1.z, 'some_string')
 
-        self.assertEqual(self.A, a.x)
-        self.assertEqual(-self.B, a.y)
-        self.assertEqual(self.C, a.z)
+    # --------------------------------
+    # ----- test unitary methods -----
+    # --------------------------------
 
 
     def test_str(self):
-        """Test string representation."""
-        a = space.space(self.A, self.B, self.C)
-        self.assertEqual(self.a_str, str(a))
+        """Test str"""
+
+        # precision is controlled by boost and not always passing the random number test
+
+        a_point = space.space(1.23, -4.56, 7.89)
+
+        a_str = '<space><x>%(x)s</x><y>%(y)s</y><z>%(z)s</z></space>' % {'x':a_point.x,
+                                                                         'y':a_point.y,
+                                                                         'z':a_point.z}
+        self.assertEqual(a_str, str(a_point))
 
 
-    def test_add(self):
-        """Test add"""
-        a = space.space(self.A, self.B, self.C)
-        b = space.space(-self.A, -self.B, -self.C)
-        c = a + b
-        self.assertEqual(0, c.x)
-        self.assertEqual(0, c.y)
-        self.assertEqual(0, c.z)
+    @unittest.skip('Not available in boost')
+    def test_repr(self):
+        """Test repr"""
 
-
-    def test_inplace_add(self):
-        """Test inplace add"""
-        a = space.space(self.A, self.B, self.C)
-        a += a
-
-        self.assertEqual(2*self.A, a.x)
-        self.assertEqual(2*self.B, a.y)
-        self.assertEqual(2*self.C, a.z)
-
-
-    def test_subtract(self):
-        """Test subtract"""
-        a = space.space(self.A, self.B, self.C)
-        b = space.space(self.A, self.B, self.C)
-        c = a - b
-        self.assertEqual(c.x, 0)
-        self.assertEqual(c.y, 0)
-        self.assertEqual(c.z, 0)
-
-
-    def test_inplace_subtract(self):
-        """Test inplace subtract"""
-        a = space.space(self.A, self.B, self.C)
-        a -= a
-
-        self.assertEqual(0, a.x)
-        self.assertEqual(0, a.y)
-        self.assertEqual(0, a.z)
-
-
-    def test_multiply(self):
-        """Test multiply, a.k.a. dot product"""
-        a = space.space(self.A, self.B, self.C)
-        b = space.space(self.A, self.B, self.C)
-        c = a * b
-        self.assertAlmostEqual(self.product, c, self.places)
-
-
-    def test_inplace_multiply(self):
-        """Test inplace multiply
-
-        This is weird because a becomes a float since this is a dot product.
-        """
-        a = space.space(self.A, self.B, self.C)
-        a *= a
-        self.assertAlmostEqual(self.product, a, self.places)
-
-
-    def test_divide(self):
-        """Test divide, a.k.a. scale"""
-        a = space.space(self.A, self.B, self.C)
-        b = a / 10
-
-        self.assertEqual(self.A/10, b.x)
-        self.assertEqual(self.B/10, b.y)
-        self.assertEqual(self.C/10, b.z)
-
-
-    def test_inplace_divide(self):
-        """Test inplace divide, a.k.a. scale"""
-        a = space.space(self.A, self.B, self.C)
-        a /= 10
-
-        self.assertEqual(self.A/10, a.x)
-        self.assertEqual(self.B/10, a.y)
-        self.assertEqual(self.C/10, a.z)
-
-
-    def DISABLED_test_divide_zero(self):
-        """Test divide by zero to raise exception"""
-        a = space.space(self.A, self.B, self.C)
-        self.assertRaises(RuntimeError, a / 0)
+        # %s precision is controlled by space.cpp and designed to match this test
+        a_repr = '(%(x)s, %(y)s, %(z)s)' % {'x':self.p1.x,
+                                            'y':self.p1.y,
+                                            'z':self.p1.z}
+        self.assertEqual(a_repr, repr(self.p1))
 
 
     def test_magnitude(self):
-        """Test magnitude"""
-        a = space.space(self.A, self.B, self.C)
-
-        self.assertAlmostEqual(self.magnitude, a.magnitude(), self.places)
+        """Test space magnitude"""
+        root_sum_square = math.sqrt(self.p1.x*self.p1.x + self.p1.y*self.p1.y + self.p1.z*self.p1.z)
+        a = space.space.magnitude(self.p1)
+        self.assertAlmostEqual(root_sum_square, a, self.places)
 
 
     def test_normalized(self):
-        """Test normalized"""
-        a = space.space(self.A, self.B, self.C)
-        b = a.normalized()
-        self.assertAlmostEqual(1.0, b.magnitude())
+        """Test space normalized"""
+        root_sum_square = math.sqrt(self.p1.x*self.p1.x + self.p1.y*self.p1.y + self.p1.z*self.p1.z)
+        normalized = space.space(self.p1.x/root_sum_square,
+                                 self.p1.y/root_sum_square,
+                                 self.p1.z/root_sum_square)
+
+        a = space.space.normalized(self.p1)
+        self.assertSpaceAreEqual(normalized, a)
 
 
-    def test_cross(self):
-        """Test cross product and static members"""
-        z = space.cross(space.space.Ux, space.space.Uy)
+    # -------------------------------
+    # ----- test math operators -----
+    # -------------------------------
 
-        self.assertEqual(space.space.Uz.x, z.x)
-        self.assertEqual(space.space.Uz.y, z.y)
-        self.assertEqual(space.space.Uz.z, z.z)
+    # Testing coercion of a float into a space is a C++ feature not available python
+
+    def test_space_plus_space(self):
+        """Test space + space"""
+        result = space.space(self.p1.x + self.p2.x,
+                             self.p1.y + self.p2.y,
+                             self.p1.z + self.p2.z)
+        a = self.p1 + self.p2
+        self.assertSpaceAreEqual(result, a)
 
 
-    def test_dot(self):
-        """Test dot product"""
-        a = space.space(self.A, self.B, self.C)
-        a = space.dot(a, a)
-        self.assertAlmostEqual(self.product, a, self.places)
+    def test_inplace_add(self):
+        """Test space +="""
+        result = space.space(self.p1.x + self.p2.x,
+                             self.p1.y + self.p2.y,
+                             self.p1.z + self.p2.z)
+        a = self.p1
+        a += self.p2
+        self.assertSpaceAreEqual(result, a)
 
+
+    def test_space_minus_space(self):
+        """Test space - space"""
+        result = space.space(self.p1.x - self.p2.x,
+                             self.p1.y - self.p2.y,
+                             self.p1.z - self.p2.z)
+        a = self.p1 - self.p2
+        self.assertSpaceAreEqual(result, a)
+
+
+    def test_inplace_subtract(self):
+        """Test space -="""
+        result = space.space(self.p1.x - self.p2.x,
+                             self.p1.y - self.p2.y,
+                             self.p1.z - self.p2.z)
+        a = self.p1
+        a -= self.p2
+        self.assertSpaceAreEqual(result, a)
+
+
+    def test_space_times_space(self):
+        """Test space * space dot product"""
+        result = self.p1.x * self.p2.x + self.p1.y * self.p2.y + self.p1.z * self.p2.z
+        a = self.p1 * self.p2
+        self.assertAlmostEqual(result, a, self.places)
+
+
+    def test_inplace_multiply(self):
+        """Test space *= dot product"""
+        result = self.p1.x * self.p2.x + self.p1.y * self.p2.y + self.p1.z * self.p2.z
+        a = self.p1
+        a *= self.p2
+        self.assertAlmostEqual(result, a, self.places)
+
+
+    def test_dot_product(self):
+        """Test space dot product function"""
+        result = self.p1.x * self.p2.x + self.p1.y * self.p2.y + self.p1.z * self.p2.z
+        a = space.dot(self.p1, self.p2)
+        self.assertEqual(result, a)
+
+
+    def test_x_cross_y(self):
+        """Test x cross y is z"""
+        a = space.cross(space.space.Ux, space.space.Uy)
+        self.assertSpaceAreEqual(space.space.Uz, a)
+
+
+    def test_y_cross_z(self):
+        """Test x cross y is z"""
+        a = space.cross(space.space.Uy, space.space.Uz)
+        self.assertSpaceAreEqual(space.space.Ux, a)
+
+
+    def test_z_cross_x(self):
+        """Test x cross y is z"""
+        a = space.cross(space.space.Uz, space.space.Ux)
+        self.assertSpaceAreEqual(space.space.Uy, a)
+
+
+    def test_cross_1(self):
+        """Test more arbitrary cross product"""
+        a = space.space(1, 1, 1)
+        b = space.space(0, 0, 0.5)
+        c = space.cross(a, b)
+        self.assertSpaceAreEqual(space.space(0.5, -0.5, 0), c)
+
+
+    def test_divide(self):
+        """Test divide (scale)"""
+        result = space.space(self.p1.x / 2.0,
+                             self.p1.y / 2.0,
+                             self.p1.z / 2.0)
+        a = self.p1 / 2.0
+        self.assertSpaceAreEqual(result, a)
+
+
+    def test_inplace_divide(self):
+        """Test inplace divide (scale)"""
+        result = space.space(self.p1.x / 2.0,
+                             self.p1.y / 2.0,
+                             self.p1.z / 2.0)
+        a = self.p1
+        a /= 2.0
+        self.assertSpaceAreEqual(result, a)
 
 
 if __name__ == '__main__':
+    random.seed(time.time())
     unittest.main()
