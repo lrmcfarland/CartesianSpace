@@ -24,21 +24,8 @@ A full set of examples can be found in lib/Space/space_unittest.cpp.
 
 I have also wrapped this in python both manually by creating a new
 python type (see python/SpaceManual/space.cpp) and by using boost (see
-python/SpaceBoost/boost_space_module.cpp).
-
-import space
-
-if __name__ == '__main__':
-
-    F = space.space()
-    m = 0.25 # kg
-    a = space.space(0, 0, -9.81) # m/s2
-
-    F = m * a
-
-    print 'The force on the apple is ', F, 'Newtons'
-
-These also have a full suite of unit tests to serve as examples.
+python/SpaceBoost/boost_space_module.cpp). These also have a full
+suite of unit tests to serve as examples.
 
 This is used as a submodule of my Orbits simulation program. With the
 C++ simulation model wrapped in python, the position and velocity of a

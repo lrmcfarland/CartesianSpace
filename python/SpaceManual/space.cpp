@@ -93,14 +93,26 @@ static void Space_dealloc(Space* self) {
 // =================
 
 PyObject* Space_str(PyObject* self) {
+
+  // TODO: make precision configuralble on build, not hardcoded.
+
+  const unsigned int high_precision(12); // matches defaut %s precision for unit test
+
   std::stringstream result;
+  result.precision(high_precision);
   result << ((Space*)self)->m_space;
   return PyString_FromString(result.str().c_str());
 }
 
 PyObject* Space_repr(PyObject* self) {
+
+  // TODO: make precision configuralble on build, not hardcoded.
+
+  const unsigned int high_precision(12); // matches defaut %s precision for unit test
+
   const Cartesian::space& a_space(((Space*)self)->m_space);
   std::stringstream result;
+  result.precision(high_precision);
   result << "("
          << a_space.x() << ", "
          << a_space.y() << ", "
