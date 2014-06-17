@@ -226,18 +226,15 @@ namespace Cartesian {
   // ----- functions -----
   // ---------------------
 
-  // implicit convertion double or int to space commutes double +-* space.
   const space operator+ (const space& lhs, const space& rhs);
   const space operator- (const space& lhs, const space& rhs);
 
-  // explicit double cast to force scale, not dot product of default space ctor.
+  // explicit double cast to force scale and not dot product of default space ctor.
   const space operator* (const space& lhs, const double& rhs); // scale
   const space operator* (const double& lhs, const space& rhs); // scale
 
-  const space operator/ (const space& lhs, const double& rhs)
-    throw (DivideZeroError); // scale
-  const space operator/ (const double& lhs, const space& rhs)
-    throw (DivideZeroError); // scale
+  const space operator/ (const space& lhs, const double& rhs) throw (DivideZeroError); // scale
+  const space operator/ (const double& lhs, const space& rhs) throw (DivideZeroError); // scale
 
   // vector products
   double operator* (const space& lhs, const space& rhs); // dot product
