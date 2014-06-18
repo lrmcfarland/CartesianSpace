@@ -7,7 +7,6 @@
 //
 // Author:      L.R. McFarland, lrm@starbug.com
 // Created:     12 May 2004
-// Revised:     27 May 2009
 // Language:    C++
 //
 //  This file is part of lrm's Orbits software library.
@@ -38,16 +37,11 @@
 
 namespace Cartesian {
 
-  // catch all SpaceErrors when simulation fails.
-
-  // TODO runtime_error or exception?
-
   class SpaceError : public std::runtime_error {
   public:
   SpaceError(const std::string& msg) : std::runtime_error(msg) {}
   };
 
-  // in Cartesian namespace
   class DivideZeroError : public SpaceError {
   public:
   DivideZeroError(const std::string&  msg) : SpaceError(msg) {}
@@ -58,7 +52,7 @@ namespace Cartesian {
   SpaceRecorderIOError(const std::string& msg) : SpaceError(msg) {}
   };
 
-  // stand-ins until c++ 11
+  // TODO stand-ins until c++ 11
   double stod(const std::string& a_string);
   int    stoi(const std::string& a_string);
 
@@ -89,27 +83,24 @@ namespace Cartesian {
 		   const std::string& b=zeroString,
 		   const std::string& c=zeroString);
 
-    ~space() {}; // destructor. default also ok.
+    ~space() {};
 
-    inline space(const space& a); // copy constructor
-    inline space& operator=(const space& rhs); // copy assignment
+    inline space(const space& a);
+    inline space& operator=(const space& rhs);
 
     // ----- accessors -----
 
-    const double& x() const            {return m_x;}
     void          x(const double& rhs) {m_x = rhs;}
-    // for python wrappers, no const return value
-    double        getX() const         {return m_x;}
+    const double& x() const            {return m_x;}
+    double        getX() const         {return m_x;} // for python wrappers, no const return
 
-    const double& y() const            {return m_y;}
     void          y(const double& rhs) {m_y = rhs;}
-    // for python wrappers, no const return value
-    double        getY() const         {return m_y;}
+    const double& y() const            {return m_y;}
+    double        getY() const         {return m_y;} // for python wrappers, no const return
 
-    const double& z() const            {return m_z;}
     void          z(const double& rhs) {m_z = rhs;}
-    // for python wrappers, no const return value
-    double        getZ() const         {return m_z;}
+    const double& z() const            {return m_z;}
+    double        getZ() const         {return m_z;} // for python wrappers, no const return
 
     // ----- bool operators -----
 
@@ -133,6 +124,7 @@ namespace Cartesian {
 
     inline space  normalized() const throw (DivideZeroError);
 
+    // TODO more
     void setUsingPolarCoords(double radius, double theta, double phi = M_PI/2);
 
   private:
@@ -155,7 +147,6 @@ namespace Cartesian {
   };
 
   // copy assignment
-  // TODO use swap http://en.wikipedia.org/wiki/Assignment_operator_(C%2B%2B)
   inline space& space::operator=(const space& rhs) {
     if (this == &rhs) return *this;
     m_x = rhs.x();
@@ -328,5 +319,3 @@ namespace Cartesian {
   };
 
 } // end namespace Cartesian
-
-// EOF

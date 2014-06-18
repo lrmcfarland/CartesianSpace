@@ -26,11 +26,10 @@
 #include <stdlib.h>  /* strtod */
 #include <space.h>
 
-// stand-ins until c++ 11
+// TODO stand-ins until c++ 11
 double Cartesian::stod(const std::string& a_string) {
-  // TBD better conversion
   // doesn't catch syntax errors
-  // TBD no worse than m_current_x = atof(m_current_characters.c_str());
+  // but no worse than m_current_x = atof(m_current_characters.c_str());
   double a_double;
 
 #if 0
@@ -54,7 +53,6 @@ double Cartesian::stod(const std::string& a_string) {
   return a_double;
 }
 
-// TODO needed?
 int Cartesian::stoi(const std::string& a_string) {
   int an_int;
   std::stringstream(a_string) >> an_int;
@@ -82,11 +80,6 @@ Cartesian::space::space(const std::string& a,
 			const std::string& b,
 			const std::string& c)
   : m_x(0), m_y(0), m_z(0) {
-
-  // TODO this will not throw exceptions on strings with out number, 
-  // it will just set the value to 0. With C++ 11 use std::stod(a);
-  // and catch std::invalid_argument
-
   m_x = Cartesian::stod(a);
   m_y = Cartesian::stod(b);
   m_z = Cartesian::stod(c);
@@ -187,7 +180,6 @@ Cartesian::rotator::rotator(const Cartesian::rotator& rhs) :
   m_is_new_axis(rhs.m_is_new_axis)
 {} // TBD test this
 
-// TODO use swap http://en.wikipedia.org/wiki/Assignment_operator_(C%2B%2B)
 Cartesian::rotator&
 Cartesian::rotator::operator=(const Cartesian::rotator& rhs) {
   if (this == &rhs) return *this;
@@ -276,7 +268,6 @@ Cartesian::SpaceRecorder::SpaceRecorder(const Cartesian::SpaceRecorder& a):
   m_data(a.m_data)
 {}
 
-// TODO use swap http://en.wikipedia.org/wiki/Assignment_operator_(C%2B%2B)
 Cartesian::SpaceRecorder&
 Cartesian::SpaceRecorder::operator=(const Cartesian::SpaceRecorder& rhs) {
   if (this == &rhs) return *this;
@@ -322,7 +313,3 @@ void Cartesian::SpaceRecorder::write2R(const std::string& flnm, bool skip_Uo) {
   ssfile.close();
 
 }
-
-
-
-// EOF
