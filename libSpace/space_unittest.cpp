@@ -128,14 +128,11 @@ namespace {
   }
 
   TEST(FixedSpace, Magnitude) {
-
     Cartesian::space a(1, 2, 3);
     EXPECT_DOUBLE_EQ(3.7416573867739413, a.magnitude());
-
   }
 
   TEST(FixedSpace, Normalized) {
-
     Cartesian::space a(1, 2, 3);
     Cartesian::space a_norm(a.normalized());
     EXPECT_DOUBLE_EQ(1.0, a_norm.magnitude());
@@ -167,6 +164,22 @@ namespace {
     Cartesian::space y = Cartesian::cross(Cartesian::space::Uz,
 					  Cartesian::space::Ux);
     EXPECT_EQ(Cartesian::space::Uy, y);
+  }
+
+  TEST(FixedSpace, SpaceException) {
+    try {
+      throw Cartesian::SpaceError("custom error message");
+    } catch (Cartesian::SpaceError& err) {
+      EXPECT_STREQ(err.what(),"custom error message");
+    }
+  }
+
+  TEST(FixedSpace, SpaceZeroException) {
+    try {
+      Cartesian::space a; a /= 0;
+    } catch (Cartesian::SpaceError& err) {
+      EXPECT_STREQ(err.what(), "division by zero is undefined");
+    }
   }
 
   // ------------------------
@@ -328,6 +341,7 @@ namespace {
     Cartesian::space a(p1);
     EXPECT_THROW(a/0, Cartesian::DivideZeroError);
     EXPECT_THROW(a/=0, Cartesian::DivideZeroError);
+    EXPECT_THROW(1.0/Cartesian::space::Uo, Cartesian::DivideZeroError);
   }
 
   TEST_F(RandomSpace, Magnitude) {

@@ -116,7 +116,7 @@ const Cartesian::space Cartesian::operator/(const Cartesian::space& lhs,
 					    const double& rhs)
   throw (DivideZeroError) {
   if (rhs == 0)
-    throw DivideZeroError("Cartesian::space::operator/() divide by zero.");
+    throw DivideZeroError();
   return Cartesian::space(lhs.x() / rhs, lhs.y() / rhs, lhs.z() / rhs);
 }
 
@@ -124,7 +124,7 @@ const Cartesian::space Cartesian::operator/(const double& lhs,
 					    const Cartesian::space& rhs)
   throw (DivideZeroError) {
   if (rhs.x() == 0 || rhs.y() == 0 || rhs.z() == 0)
-    throw DivideZeroError("Cartesian::space::operator/() divide by zero.");
+    throw DivideZeroError();
   return Cartesian::space(lhs / rhs.x(), lhs / rhs.y(), lhs / rhs.z());
 }
 

@@ -44,7 +44,7 @@ namespace Cartesian {
 
   class DivideZeroError : public SpaceError {
   public:
-  DivideZeroError(const std::string&  msg) : SpaceError(msg) {}
+  DivideZeroError(const std::string&  msg = "division by zero is undefined") : SpaceError(msg) {}
   };
 
   class SpaceRecorderIOError : public SpaceError {
@@ -190,8 +190,7 @@ namespace Cartesian {
 
   inline space& space::operator/=(const double& rhs) throw (DivideZeroError) {
     if (rhs == 0)
-      throw DivideZeroError("space::operator/=(const double& rhs) "
-			    "attempted divide by zero.");
+      throw DivideZeroError();
     m_x /= rhs;
     m_y /= rhs;
     m_z /= rhs;
