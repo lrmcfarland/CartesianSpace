@@ -1,12 +1,12 @@
 // ==================================================================
 // Filename:    space.cpp
 // Description: Implements the space class
+//              This file is part of lrm's Orbits software library.
 //              Assumes angles are in radians
+//
 // Author:      L.R. McFarland, lrm@starbug.com
 // Created:     4 Feb 1999
 // Language:    C++
-//
-//  This file is part of lrm's Orbits software library.
 //
 //  Orbits is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by

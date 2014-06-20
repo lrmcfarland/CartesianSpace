@@ -471,7 +471,7 @@ namespace {
 
   }
 
-} // namespace
+} // end anonymous namespace
 
 
 // ==================

@@ -1,15 +1,14 @@
 // ================================================================
 // Filename:    space.h
-// Description: Defines space class for Orbits applications.
+// Description: Defines a space class for physics applications.
 //              Implemented as classic Cartesian three space coordinates.
+//              This file is part of lrm's Orbits software library.
 //
 //              ASSUMES angles are in radians
 //
 // Author:      L.R. McFarland, lrm@starbug.com
 // Created:     12 May 2004
 // Language:    C++
-//
-//  This file is part of lrm's Orbits software library.
 //
 //  Orbits is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,7 +28,6 @@
 
 #include <cmath>
 #include <deque>
-#include <exception>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -76,7 +74,9 @@ namespace Cartesian {
 
     // ----- ctor and dtor -----
 
-    explicit space(double a = 0.0, double b = 0.0, double c = 0.0)
+    explicit space(const double& a = 0.0,
+		   const double& b = 0.0,
+		   const double& c = 0.0)
       : m_x(a), m_y(b), m_z(c) {}; // ctors, including default.
 
     explicit space(const std::string& a, // The ambiguity is in the box.
