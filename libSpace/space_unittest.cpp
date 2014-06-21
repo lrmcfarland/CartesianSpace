@@ -64,7 +64,7 @@ namespace {
 
   }
 
-  TEST(FixedSpace, Printing) {
+  TEST(FixedSpace, OutputOperator) {
     Cartesian::space a(1, 2, 3);
     std::stringstream out;
     out << a;

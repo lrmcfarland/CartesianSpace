@@ -70,8 +70,6 @@ namespace Cartesian {
     static const space Uy;
     static const space Uz;
 
-    static const std::string zeroString;
-
     // ----- ctor and dtor -----
 
     explicit space(const double& a = 0.0,
@@ -80,8 +78,8 @@ namespace Cartesian {
       : m_x(a), m_y(b), m_z(c) {}; // ctors, including default.
 
     explicit space(const std::string& a, // The ambiguity is in the box.
-		   const std::string& b=zeroString,
-		   const std::string& c=zeroString);
+		   const std::string& b="0",
+		   const std::string& c="0");
 
     ~space() {};
 

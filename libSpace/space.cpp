@@ -73,8 +73,6 @@ const Cartesian::space Cartesian::space::Ux(1,0,0);
 const Cartesian::space Cartesian::space::Uy(0,1,0);
 const Cartesian::space Cartesian::space::Uz(0,0,1);
 
-const std::string Cartesian::space::zeroString("0.0");
-
 // ----- constructor from string for building from xml ----
 Cartesian::space::space(const std::string& a,
 			const std::string& b,
