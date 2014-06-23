@@ -83,7 +83,7 @@ Cartesian::space::space(const std::string& a,
   m_z = Cartesian::stod(c);
 }
 
-// ----- methods -----
+// ----- operators -----
 
 const Cartesian::space Cartesian::operator+(const Cartesian::space& lhs,
 					    const Cartesian::space& rhs) {

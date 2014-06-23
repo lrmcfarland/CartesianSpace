@@ -174,7 +174,7 @@ namespace {
     }
   }
 
-  TEST(FixedSpace, SpaceZeroException) {
+  TEST(FixedSpace, InplaceDivideByZeroException) {
     try {
       Cartesian::space a; a /= 0;
     } catch (Cartesian::SpaceError& err) {
@@ -337,7 +337,7 @@ namespace {
     EXPECT_EQ(result, a);
   }
 
-  TEST_F(RandomSpace, DivideZeroException) {
+  TEST_F(RandomSpace, DivideByZeroException) {
     Cartesian::space a(p1);
     EXPECT_THROW(a/0, Cartesian::DivideZeroError);
     EXPECT_THROW(a/=0, Cartesian::DivideZeroError);
