@@ -27,7 +27,7 @@ export DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${CARTESIAN_LIBRARY_PATH}
 # ----- set python path -----
 # ---------------------------
 
-SPACE_SO=`find ${CARTESIAN_SPACE_ROOT}/python/SpaceBoost -name space.so`
+SPACE_SO=`find ${CARTESIAN_SPACE_ROOT}/python/Boost -name space.so`
 
 if [ -n "$SPACE_SO" ]; then
     echo "# space.so:" $SPACE_SO
