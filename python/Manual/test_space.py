@@ -48,7 +48,7 @@ class TestSpace(unittest.TestCase):
         self.assertEqual(0, a.x)
         self.assertEqual(0, a.y)
         self.assertEqual(0, a.z)
-        self.assertSpaceAreEqual(a, space.Uo)
+        self.assertSpaceAreEqual(space.Uo, a)
 
 
     def test_x_constructor(self):
@@ -87,11 +87,29 @@ class TestSpace(unittest.TestCase):
         a.z = self.p1.z
         self.assertSpaceAreEqual(self.p1, a)
 
-
-    def test_copy_assign(self):
+    def test_copy_assign1(self):
         """Test copy assignment operator"""
         a = self.p1
         self.assertSpaceAreEqual(self.p1, a)
+
+
+    def test_copy_assign2(self):
+        """Test copy assignment operator is shallow"""
+        a = space.space(1,2,3)
+        b = a
+        b.x = 4.0
+        self.assertSpaceAreEqual(a, b)
+        self.assertEqual(4, b.x)
+
+
+    def test_copy_assign3(self):
+        """Test copy assignment operator can use deep copy"""
+        import copy
+        a = space.space(1,2,3)
+        b = copy.deepcopy(a)
+        b.x = 4.0
+        self.assertEqual(1, a.x)
+        self.assertEqual(4, b.x)
 
 
     def test_string_constructor_exception(self):
