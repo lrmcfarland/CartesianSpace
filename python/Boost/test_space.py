@@ -235,6 +235,15 @@ class TestSpace(unittest.TestCase):
         self.assertSpacesAreEqual(result, a)
 
 
+    @unittest.skip('TODO overload * double or no explicit constructor?')
+    def test_space_times_double(self):
+        """Test space * double (scale)"""
+        scale = 0.5
+        result = self.p1.x * scale + self.p1.y * scale + self.p1.z * scale
+        a = self.p1 * scale
+        self.assertAlmostEqual(result, a, self.places)
+
+
     def test_space_times_space(self):
         """Test space * space dot product"""
         result = self.p1.x * self.p2.x + self.p1.y * self.p2.y + self.p1.z * self.p2.z
