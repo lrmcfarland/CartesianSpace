@@ -23,8 +23,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> foo = space.space(1,2,3)
 >>> print foo
 <space><x>1</x><y>2</y><z>3</z></space>
->>> print repr(foo)
-(1, 2, 3)
+>>> repr(foo)
+‘(1, 2, 3)’
 >>> ^D
 
 
