@@ -12,7 +12,7 @@ all: build
 build: setup.py boost_space_module.cpp
 	${OSXFLAGS} python setup.py build
 
-test: build test_space.py 
+test: build test_space.py
 	./test_space.sh -v
 
 clean:

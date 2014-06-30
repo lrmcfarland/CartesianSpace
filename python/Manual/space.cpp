@@ -402,7 +402,7 @@ static PyNumberMethods space_as_number = {
 PyTypeObject SpaceType = {
   PyObject_HEAD_INIT(NULL)
   0,                                        /* ob_size */
-  "orbits.space",                           /* tp_name */
+  "space",                                  /* tp_name */
   sizeof(Space),                            /* tp_basicsize */
   0,                                        /* tp_itemsize */
   (destructor) Space_dealloc,               /* tp_dealloc */
@@ -654,7 +654,5 @@ PyMODINIT_FUNC initspace(void) {
   space_Uz = space_create(Cartesian::space::Uz);
   Py_INCREF(space_Uz);
   PyModule_AddObject(m, "Uz", (PyObject*)space_Uz);
-
-  // TODO other objects
 
 }

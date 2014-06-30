@@ -22,6 +22,10 @@ libSpace/space_unittest
 libSpace/mepsilon
 
 # builds
-python/BodyBoost/build
-python/SpaceManual/build
-python/SpaceBoost/build
+python/Boost/build
+python/Manual/build
+
+python/Swig/_space.so
+python/Swig/space.py
+python/Swig/space_wrap.cxx
+

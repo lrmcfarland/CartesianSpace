@@ -32,8 +32,9 @@ class TestSpace(unittest.TestCase):
                               random.uniform(self.lower_range, self.upper_range))
 
 
-    def assertSpaceAreEqual(self, lhs_space, rhs_space):
+    def assertSpacesAreEqual(self, lhs_space, rhs_space):
         """Space assert helper method."""
+        # TODO wrap operator==()
         self.assertAlmostEqual(lhs_space.x, rhs_space.x, places=self.places)
         self.assertAlmostEqual(lhs_space.y, rhs_space.y, places=self.places)
         self.assertAlmostEqual(lhs_space.z, rhs_space.z, places=self.places)
@@ -48,7 +49,7 @@ class TestSpace(unittest.TestCase):
         self.assertEqual(0, a.x)
         self.assertEqual(0, a.y)
         self.assertEqual(0, a.z)
-        self.assertSpaceAreEqual(a, space.space.Uo)
+        self.assertSpacesAreEqual(space.space.Uo, a)
 
 
     def test_x_constructor(self):
@@ -70,14 +71,14 @@ class TestSpace(unittest.TestCase):
     def test_xyz_constructor(self):
         """Test xyz constructor"""
         a = space.space(self.p1.x, self.p1.y, self.p1.z)
-        self.assertSpaceAreEqual(self.p1, a)
+        self.assertSpacesAreEqual(self.p1, a)
 
 
     @unittest.skip('Not available in boost')
     def test_xyz_constructor2(self):
         """Test xyz constructor by named args"""
         a = space.space(z=self.p1.z, x=self.p1.x, y=self.p1.y)
-        self.assertSpaceAreEqual(self.p1, a)
+        self.assertSpacesAreEqual(self.p1, a)
 
 
     def test_xyz_assignments(self):
@@ -86,13 +87,32 @@ class TestSpace(unittest.TestCase):
         a.x = self.p1.x
         a.y = self.p1.y
         a.z = self.p1.z
-        self.assertSpaceAreEqual(self.p1, a)
+        self.assertSpacesAreEqual(self.p1, a)
 
 
-    def test_copy_assign(self):
+    def test_copy_assign1(self):
         """Test copy assignment operator"""
         a = self.p1
-        self.assertSpaceAreEqual(self.p1, a)
+        self.assertSpacesAreEqual(self.p1, a)
+
+
+    def test_copy_assign2(self):
+        """Test copy assignment operator is shallow"""
+        a = space.space(1,2,3)
+        b = a
+        b.x = 4.0
+        self.assertSpacesAreEqual(a, b)
+        self.assertEqual(4, b.x)
+
+    @unittest.skip('Not available in boost')
+    def test_copy_assign3(self):
+        """Test copy assignment operator can use deep copy"""
+        import copy
+        a = space.space(1,2,3)
+        b = copy.deepcopy(a)
+        b.x = 4.0
+        self.assertEqual(1, a.x)
+        self.assertEqual(4, b.x)
 
 
     def test_string_constructor_exception(self):
@@ -154,14 +174,28 @@ class TestSpace(unittest.TestCase):
                                  self.p1.z/root_sum_square)
 
         a = space.space.normalized(self.p1)
-        self.assertSpaceAreEqual(normalized, a)
+        self.assertSpacesAreEqual(normalized, a)
 
 
     # -------------------------------
     # ----- test math operators -----
     # -------------------------------
 
-    # Testing coercion of a float into a space is a C++ feature not available python
+    @unittest.skip('TODO wrap operator==()')
+    def test_space_eq_space(self):
+        """Test space == space"""
+        a = space.space(1, 2, 3)
+        b = space.space(1, 2, 3)
+        self.assertTrue(result == a)
+
+
+    @unittest.skip('TODO wrap operator!=()')
+    def test_space_ne_space(self):
+        """Test space != space"""
+        a = space.space(1, 2, 3)
+        b = space.space(1, 2, 3)
+        self.assertTrue(a != b) # false positive comparing addresses
+
 
     def test_space_plus_space(self):
         """Test space + space"""
@@ -169,7 +203,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.y + self.p2.y,
                              self.p1.z + self.p2.z)
         a = self.p1 + self.p2
-        self.assertSpaceAreEqual(result, a)
+        self.assertSpacesAreEqual(result, a)
 
 
     def test_inplace_add(self):
@@ -179,7 +213,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.z + self.p2.z)
         a = self.p1
         a += self.p2
-        self.assertSpaceAreEqual(result, a)
+        self.assertSpacesAreEqual(result, a)
 
 
     def test_space_minus_space(self):
@@ -188,7 +222,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.y - self.p2.y,
                              self.p1.z - self.p2.z)
         a = self.p1 - self.p2
-        self.assertSpaceAreEqual(result, a)
+        self.assertSpacesAreEqual(result, a)
 
 
     def test_inplace_subtract(self):
@@ -198,7 +232,16 @@ class TestSpace(unittest.TestCase):
                              self.p1.z - self.p2.z)
         a = self.p1
         a -= self.p2
-        self.assertSpaceAreEqual(result, a)
+        self.assertSpacesAreEqual(result, a)
+
+
+    @unittest.skip('TODO overload * double or no explicit constructor?')
+    def test_space_times_double(self):
+        """Test space * double (scale)"""
+        scale = 0.5
+        result = self.p1.x * scale + self.p1.y * scale + self.p1.z * scale
+        a = self.p1 * scale
+        self.assertAlmostEqual(result, a, self.places)
 
 
     def test_space_times_space(self):
@@ -226,19 +269,19 @@ class TestSpace(unittest.TestCase):
     def test_x_cross_y(self):
         """Test x cross y is z"""
         a = space.cross(space.space.Ux, space.space.Uy)
-        self.assertSpaceAreEqual(space.space.Uz, a)
+        self.assertSpacesAreEqual(space.space.Uz, a)
 
 
     def test_y_cross_z(self):
         """Test x cross y is z"""
         a = space.cross(space.space.Uy, space.space.Uz)
-        self.assertSpaceAreEqual(space.space.Ux, a)
+        self.assertSpacesAreEqual(space.space.Ux, a)
 
 
     def test_z_cross_x(self):
         """Test x cross y is z"""
         a = space.cross(space.space.Uz, space.space.Ux)
-        self.assertSpaceAreEqual(space.space.Uy, a)
+        self.assertSpacesAreEqual(space.space.Uy, a)
 
 
     def test_cross_1(self):
@@ -246,7 +289,7 @@ class TestSpace(unittest.TestCase):
         a = space.space(1, 1, 1)
         b = space.space(0, 0, 0.5)
         c = space.cross(a, b)
-        self.assertSpaceAreEqual(space.space(0.5, -0.5, 0), c)
+        self.assertSpacesAreEqual(space.space(0.5, -0.5, 0), c)
 
 
     def test_divide(self):
@@ -255,7 +298,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.y / 2.0,
                              self.p1.z / 2.0)
         a = self.p1 / 2.0
-        self.assertSpaceAreEqual(result, a)
+        self.assertSpacesAreEqual(result, a)
 
 
     def test_inplace_divide(self):
@@ -265,7 +308,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.z / 2.0)
         a = self.p1
         a /= 2.0
-        self.assertSpaceAreEqual(result, a)
+        self.assertSpacesAreEqual(result, a)
 
 
 if __name__ == '__main__':
