@@ -23,15 +23,16 @@ You can literally write:
 A full set of examples can be found in lib/Space/space_unittest.cpp.
 
 I have also wrapped this in python both manually by creating a new
-python type (see python/SpaceManual/space.cpp) and by using boost (see
-python/SpaceBoost/boost_space_module.cpp). These also have a full
-suite of unit tests to serve as examples.
+python type (see python/Manual/space.cpp), by using boost (see
+python/Boost/boost_space_module.cpp) and swig
+(python/Swig/space.i). These each have a full suite of unit tests to
+serve as examples.
 
-This is used as a submodule of my Orbits simulation program. With the
-C++ simulation model wrapped in python, the position and velocity of a
-given body can easily be converted to a new coordinate system
-(e.g. centered on the moon) or have calculated quantities like the
-angular momentum over time plotted. A demo is available on my web-site
-starbug.com.
+This is used as a submodule of my space craft simulation program
+Orbits. With the C++ simulation model wrapped in python, the position
+and velocity of a given body can easily be converted to a new
+coordinate system (e.g. centered on the moon) or have calculated
+quantities like the angular momentum over time plotted. A demo is
+available on my web-site starbug.com.
 
 -lrm
