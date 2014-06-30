@@ -24,3 +24,8 @@ libSpace/mepsilon
 # builds
 python/Boost/build
 python/Manual/build
+
+python/Swig/_space.so
+python/Swig/space.py
+python/Swig/space_wrap.cxx
+
