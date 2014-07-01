@@ -9,7 +9,7 @@ This does not use bjam, rather builds like other python modules:
 
 setup.py assumes libSpace.dylib is built and located in ../../libSpace.
 This can ge changed by setting the CARTESIAN_LIBRARY_PATH environment
-variable. See the Makefile for details.
+variable. See the [Makefile](Makefile) for details.
 
 Once built you will need to add the module to your python path to use.
 setenv.sh shows some examples of how I set this on my iMac during
