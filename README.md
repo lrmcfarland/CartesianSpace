@@ -33,7 +33,7 @@ These each has a full suite of unit tests to serve as examples.
 
 This is used as a submodule of my space craft simulation program
 Orbits. The C++ model can either display the simulation in 3D with
-OpenGL or analyze properties on using the python wrappers to extract
+OpenGL or analyze properties using the python wrappers to extract
 the features of interest, like distance from another body, fuel, speed
 or angular momentum over time, with out having to re-code the
 simulation.
