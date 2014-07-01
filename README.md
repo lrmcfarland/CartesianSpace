@@ -1,4 +1,4 @@
-2014 May 28
+# CartesianSpace
 
 This is my take on creating a Cartesian three space vector for use in
 physics applications as a full featured C++ object. It has only three
@@ -10,29 +10,26 @@ place variants are overloaded to support vector arithmetic. Additional
 functions including the dot and cross products, rotation opertions as
 well as the output operator<<() are supported.
 
-You can literally write:
+    Cartesian::space F;
+    double m(0.25); // kg
+    Cartesian::space a(0, 0, -9.81); // m/s2
 
-  Cartesian::space F;
-  double m(0.25); // kg
-  Cartesian::space a(0, 0, -9.81); // m/s2
+    F = m * a;
 
-  F = m * a;
-
-  std::cout << "The force on the apple is " << F << " Newtons" << std::endl;
+    std::cout << "The force on the apple is " << F << " Newtons" << std::endl;
 
 A full set of examples can be found in lib/Space/space_unittest.cpp.
 
 I have also wrapped this in python both manually by creating a new
-python type (see python/Manual/space.cpp), by using boost (see
-python/Boost/boost_space_module.cpp) and swig
-(python/Swig/space.i). These each have a full suite of unit tests to
-serve as examples.
+python type (see python/Manual/space.cpp), by using swig
+(python/Swig/space.i) and boost (see python/Boost/boost_space_module.cpp).
+
+These each has a full suite of unit tests to serve as examples.
 
 This is used as a submodule of my space craft simulation program
-Orbits. With the C++ simulation model wrapped in python, the position
-and velocity of a given body can easily be converted to a new
-coordinate system (e.g. centered on the moon) or have calculated
-quantities like the angular momentum over time plotted. A demo is
-available on my web-site starbug.com.
+Orbits. The C++ model can either display the simulation in OpenGL
+with Qt or analyze the results using the python wrappers to extract
+the features of interest, like speed or angular momentum over time.
 
--lrm
+Demos are available on my web-site http://starbug.com
+

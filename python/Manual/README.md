@@ -1,9 +1,9 @@
-2013nov16
+# Manual python wrappers
 
 This directory contains the python wrappers for the Cartesian space objects.
 They can be built by python with the command:
 
-python setup.py build
+    python setup.py build
 
 setup.py assumes libSpace.dylib is built and located in ../../libSpace.
 This can ge changed by setting the CARTESIAN_LIBRARY_PATH environment
@@ -15,12 +15,13 @@ development.
 
 pylaunch.sh will start an interpreter to test with.
 
-lrmz-iMac:python lrm$ ./pylaunch.sh
-Python 2.7.1 (r271:86832, Jul 31 2011, 19:30:53)
-[GCC 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2335.15.00)] on darwin
-Type "help", "copyright", "credits" or "license" for more information.
->>> import space
->>> a = space.space(1, 2, 3)
->>> a
-(1, 2, 3)
->>>
+    $ ./pylaunch.sh
+    Python 2.7.1 (r271:86832, Jul 31 2011, 19:30:53)
+    [GCC 4.2.1 (Based on Apple Inc. build 5658) (LLVM build 2335.15.00)] on darwin
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> import space
+    >>> a = space.space(1, 2, 3)
+    >>> a
+    (1, 2, 3)
+    >>>
+
