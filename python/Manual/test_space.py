@@ -32,13 +32,6 @@ class TestSpace(unittest.TestCase):
                               random.uniform(self.lower_range, self.upper_range))
 
 
-    def assertSpacesAreEqual(self, lhs_space, rhs_space):
-        """Space assert helper method."""
-        # TODO wrap operator==()
-        self.assertAlmostEqual(lhs_space.x, rhs_space.x, places=self.places)
-        self.assertAlmostEqual(lhs_space.y, rhs_space.y, places=self.places)
-        self.assertAlmostEqual(lhs_space.z, rhs_space.z, places=self.places)
-
     # -----------------------------
     # ----- test constructors -----
     # -----------------------------
@@ -49,7 +42,7 @@ class TestSpace(unittest.TestCase):
         self.assertEqual(0, a.x)
         self.assertEqual(0, a.y)
         self.assertEqual(0, a.z)
-        self.assertSpacesAreEqual(space.Uo, a)
+        self.assertTrue(space.Uo == a)
 
 
     def test_x_constructor(self):
@@ -71,13 +64,13 @@ class TestSpace(unittest.TestCase):
     def test_xyz_constructor(self):
         """Test xyz constructor"""
         a = space.space(self.p1.x, self.p1.y, self.p1.z)
-        self.assertSpacesAreEqual(self.p1, a)
+        self.assertTrue(self.p1 == a)
 
 
     def test_xyz_constructor2(self):
         """Test xyz constructor by named args"""
         a = space.space(z=self.p1.z, x=self.p1.x, y=self.p1.y)
-        self.assertSpacesAreEqual(self.p1, a)
+        self.assertTrue(self.p1 == a)
 
 
     def test_xyz_assignments(self):
@@ -86,12 +79,12 @@ class TestSpace(unittest.TestCase):
         a.x = self.p1.x
         a.y = self.p1.y
         a.z = self.p1.z
-        self.assertSpacesAreEqual(self.p1, a)
+        self.assertTrue(self.p1 == a)
 
     def test_copy_assign1(self):
         """Test copy assignment operator"""
         a = self.p1
-        self.assertSpacesAreEqual(self.p1, a)
+        self.assertTrue(self.p1 == a)
 
 
     def test_copy_assign2(self):
@@ -99,7 +92,7 @@ class TestSpace(unittest.TestCase):
         a = space.space(1,2,3)
         b = a
         b.x = 4.0
-        self.assertSpacesAreEqual(a, b)
+        self.assertTrue(a == b)
         self.assertEqual(4, b.x)
 
 
@@ -168,27 +161,55 @@ class TestSpace(unittest.TestCase):
                                  self.p1.z/root_sum_square)
 
         a = space.normalized(self.p1)
-        self.assertSpacesAreEqual(normalized, a)
+        self.assertTrue(normalized == a)
 
 
-    # -------------------------------
-    # ----- test math operators -----
-    # -------------------------------
+    # ----------------------------
+    # ----- test richcompare -----
+    # ----------------------------
 
-    @unittest.skip('TODO wrap operator==()')
-    def test_space_eq_space(self):
+
+    def test_space_eq_space1(self):
         """Test space == space"""
         a = space.space(1, 2, 3)
         b = space.space(1, 2, 3)
         self.assertTrue(a == b)
 
-    @unittest.skip('TODO wrap operator!=()')
-    def test_space_ne_space(self):
+
+    def test_space_eq_space2(self):
+        """Test space == space"""
+        a = space.space(1, 2, 3)
+        b = space.space(-1, 2, 3)
+        self.assertFalse(a == b)
+
+
+    def test_space_ne_space1(self):
+        """Test space != space"""
+        a = space.space(1, 2, 3)
+        b = space.space(-1, 2, 3)
+        self.assertTrue(a != b)
+
+
+    def test_space_ne_space2(self):
         """Test space != space"""
         a = space.space(1, 2, 3)
         b = space.space(1, 2, 3)
-        self.assertTrue(a != b) # false positive comparing addresses
+        self.assertFalse(a != b)
 
+
+    def test_space_noop_richcompare_space(self):
+        """Test space >, >=, <, <= space"""
+        a = space.space(1, 2, 3)
+        b = space.space(4, 5, 5)
+        self.assertRaises(TypeError, lambda a, b: a > b)
+        self.assertRaises(TypeError, lambda a, b: a >= b)
+        self.assertRaises(TypeError, lambda a, b: a < b)
+        self.assertRaises(TypeError, lambda a, b: a <= b)
+
+
+    # -------------------------------
+    # ----- test math operators -----
+    # -------------------------------
 
     def test_space_plus_space(self):
         """Test space + space"""
@@ -196,7 +217,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.y + self.p2.y,
                              self.p1.z + self.p2.z)
         a = self.p1 + self.p2
-        self.assertSpacesAreEqual(result, a)
+        self.assertTrue(result == a)
 
 
     def test_inplace_add(self):
@@ -206,7 +227,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.z + self.p2.z)
         a = self.p1
         a += self.p2
-        self.assertSpacesAreEqual(result, a)
+        self.assertTrue(result == a)
 
 
     def test_space_minus_space(self):
@@ -215,7 +236,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.y - self.p2.y,
                              self.p1.z - self.p2.z)
         a = self.p1 - self.p2
-        self.assertSpacesAreEqual(result, a)
+        self.assertTrue(result == a)
 
 
     def test_inplace_subtract(self):
@@ -225,10 +246,10 @@ class TestSpace(unittest.TestCase):
                              self.p1.z - self.p2.z)
         a = self.p1
         a -= self.p2
-        self.assertSpacesAreEqual(result, a)
+        self.assertTrue(result == a)
 
 
-    @unittest.skip('TODO overload * double or no explicit constructor?')
+    @unittest.skip('TODO implicit conversion constructor?')
     def test_space_times_double(self):
         """Test space * double (scale)"""
         scale = 0.5
@@ -262,26 +283,26 @@ class TestSpace(unittest.TestCase):
     def test_x_cross_y(self):
         """Test x cross y is z"""
         a = space.cross(space.Ux, space.Uy)
-        self.assertSpacesAreEqual(space.Uz, a)
+        self.assertTrue(space.Uz, a)
 
 
     def test_y_cross_z(self):
         """Test x cross y is z"""
         a = space.cross(space.Uy, space.Uz)
-        self.assertSpacesAreEqual(space.Ux, a)
+        self.assertTrue(space.Ux, a)
 
 
     def test_z_cross_x(self):
         """Test x cross y is z"""
         a = space.cross(space.Uz, space.Ux)
-        self.assertSpacesAreEqual(space.Uy, a)
+        self.assertTrue(space.Uy, a)
 
     def test_cross_1(self):
         """Test more arbitrary cross product"""
         a = space.space(1, 1, 1)
         b = space.space(0, 0, 0.5)
         c = space.cross(a, b)
-        self.assertSpacesAreEqual(space.space(0.5, -0.5, 0), c)
+        self.assertTrue(space.space(0.5, -0.5, 0), c)
 
 
     def test_divide(self):
@@ -290,7 +311,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.y / 2.0,
                              self.p1.z / 2.0)
         a = self.p1 / 2.0
-        self.assertSpacesAreEqual(result, a)
+        self.assertTrue(result == a)
 
 
     def test_inplace_divide(self):
@@ -300,7 +321,7 @@ class TestSpace(unittest.TestCase):
                              self.p1.z / 2.0)
         a = self.p1
         a /= 2.0
-        self.assertSpacesAreEqual(result, a)
+        self.assertTrue(result == a)
 
 
 if __name__ == '__main__':

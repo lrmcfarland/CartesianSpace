@@ -199,7 +199,6 @@ static int Space_setz(Space* self, PyObject* value, void* closure) {
   return 0;
 }
 
-
 // ==========================
 // ===== number methods =====
 // ==========================
@@ -302,6 +301,36 @@ static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
   return (PyObject*) result_space;
 }
 
+
+static PyObject* tp_richcompare(PyObject* o1, PyObject* o2, int op) {
+
+  if (!is_SpaceType(o1) || !is_SpaceType(o2)) {
+    Py_INCREF(Py_NotImplemented);
+    return Py_NotImplemented;
+  }
+
+  if (op == Py_EQ) {
+
+    if (((Space*)o1)->m_space == ((Space*)o2)->m_space)
+      return Py_True;
+    else
+      return Py_False;
+
+  } else if (op == Py_NE) {
+
+    if (((Space*)o1)->m_space != ((Space*)o2)->m_space)
+      return Py_True;
+    else
+      return Py_False;
+
+  } else {
+
+    PyErr_SetString(PyExc_TypeError, "tp_richcompare op not supported");
+    return NULL;
+
+  }
+
+}
 
 // ---------------------------
 // ----- inplace methods -----
@@ -424,7 +453,7 @@ PyTypeObject SpaceType = {
   "Space objects",                          /* tp_doc */
   0,                                        /* tp_traverse */
   0,                                        /* tp_clear */
-  0,                                        /* tp_richcompare */
+  tp_richcompare,                           /* tp_richcompare */
   0,                                        /* tp_weaklistoffset */
   0,                                        /* tp_iter */
   0,                                        /* tp_iternext */

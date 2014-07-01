@@ -3,10 +3,10 @@
 This is my take on creating a Cartesian three space vector for use in
 physics applications as a full featured C++ object. It has only three
 doubles as the data members for x, y and z. There are a variety of
-accessors and constructors that can build or modify the vector object
-from doubles or strings as well as from the copy and copy assign
-constructors. All of the math operators, their commuted and in place
-variants are overloaded to support vector arithmetic. Additional
+accessors and constructors that can build or modify the space (vector)
+object from doubles or strings as well as from the copy and copy
+assign constructors. All of the math operators, their commuted and in
+place variants are overloaded to support vector arithmetic. Additional
 functions including the dot and cross products, rotation opertions as
 well as the output operator<<() are supported.
 

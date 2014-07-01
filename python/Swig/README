@@ -3,13 +3,10 @@
 This directory contains the swig python wrappers for the Cartesian
 space objects.
 
-This has some significant differences from the manual and Boost
-wrapped versions. The extension feature has allowed me to implement
-things like operator==() that are not done in the others. However I
-have not yet figured out how to make the accessors behave like
-properties the way they do in Boost and manually. I have adapted the
-unit tests to have the same coverage except where I needed to skip
-tests because of implementation differences.
+This has some differences from the manual and Boost wrapped
+versions. I have adapted the unit tests to have the same coverage
+except where I needed to skip tests because of as yet unresolved
+implementation differences.
 
 The Makefile is setup to wrap and build the _space.so library. This
 can simply be imported directly when the interpreter is run in this

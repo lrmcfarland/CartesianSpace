@@ -177,24 +177,57 @@ class TestSpace(unittest.TestCase):
         self.assertSpacesAreEqual(normalized, a)
 
 
-    # -------------------------------
-    # ----- test math operators -----
-    # -------------------------------
+    # ----------------------------
+    # ----- test richcompare -----
+    # ----------------------------
+
 
     @unittest.skip('TODO wrap operator==()')
-    def test_space_eq_space(self):
+    def test_space_eq_space1(self):
         """Test space == space"""
         a = space.space(1, 2, 3)
         b = space.space(1, 2, 3)
-        self.assertTrue(result == a)
+        self.assertTrue(a == b)
 
 
-    @unittest.skip('TODO wrap operator!=()')
-    def test_space_ne_space(self):
+    @unittest.skip('TODO wrap operator==()')
+    def test_space_eq_space2(self):
+        """Test space == space"""
+        a = space.space(1, 2, 3)
+        b = space.space(-1, 2, 3)
+        self.assertFalse(a == b)
+
+
+    @unittest.skip('TODO wrap operator==()')
+    def test_space_ne_space1(self):
+        """Test space != space"""
+        a = space.space(1, 2, 3)
+        b = space.space(-1, 2, 3)
+        self.assertTrue(a != b)
+
+
+    @unittest.skip('TODO wrap operator==()')
+    def test_space_ne_space2(self):
         """Test space != space"""
         a = space.space(1, 2, 3)
         b = space.space(1, 2, 3)
-        self.assertTrue(a != b) # false positive comparing addresses
+        self.assertFalse(a != b)
+
+
+    @unittest.skip('TODO wrap operator==()')
+    def test_space_noop_richcompare_space(self):
+        """Test space >, >=, <, <= space"""
+        a = space.space(1, 2, 3)
+        b = space.space(4, 5, 5)
+        self.assertRaises(TypeError, lambda a, b: a > b)
+        self.assertRaises(TypeError, lambda a, b: a >= b)
+        self.assertRaises(TypeError, lambda a, b: a < b)
+        self.assertRaises(TypeError, lambda a, b: a <= b)
+
+
+    # -------------------------------
+    # ----- test math operators -----
+    # -------------------------------
 
 
     def test_space_plus_space(self):
