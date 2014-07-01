@@ -21,17 +21,22 @@ are supported.
 
 A full set of examples can be found in [space_unittest.cpp](libSpace/space_unittest.cpp).
 
-I have also wrapped this in python both manually by creating a new
-python type in [space.cpp](python/Manual/space.cpp), using boost
-wrappers generated in the [space module](python/Boost/boost_space_module.cpp)
-and swig with [space.i](python/Swig/space.i)
+I have also use this to investigate how to wrap this in python using
+various tools to see what limitations in porting each tool has (mostly
+due to things C++ supports but python doesn't, like constructor
+overloading). First manually by creating a new python type in
+[space.cpp](python/Manual/space.cpp), then using boost wrappers
+generated in the [space module](python/Boost/boost_space_module.cpp)
+and finally swig with [space.i](python/Swig/space.i)
 
 These each has a full suite of unit tests to serve as examples.
 
 This is used as a submodule of my space craft simulation program
-Orbits. The C++ model can either display the simulation in OpenGL
-with Qt or analyze the results using the python wrappers to extract
-the features of interest, like speed or angular momentum over time.
+Orbits. The C++ model can either display the simulation in 3D with
+OpenGL or analyze properties on using the python wrappers to extract
+the features of interest, like distance from another body, fuel, speed
+or angular momentum over time, with out having to re-code the
+simulation.
 
 Demos are available on my web-site [starbug.com](http://starbug.com)
 
