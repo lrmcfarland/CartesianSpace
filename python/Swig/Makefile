@@ -13,6 +13,7 @@ ifeq ($(UNAME), Darwin)
 PYINCS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7
 endif
 
+all:
 
 space_module: space_swig
 	g++ -fPIC -I. -c space.cpp

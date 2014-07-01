@@ -68,15 +68,19 @@ namespace Cartesian {
       // from http://www.swig.org/Doc1.3/SWIGPlus.html#SWIGPlus_class_extension
 
       char* __str__() {
-	static char temp[1024]; // TODO std::string?
-	sprintf(temp, "<space><x>%.12g</x><y>%.12g</y><z>%.12g</z></space>",
-		$self->x(), $self->y(), $self->z()); // TODO precision
+	static const int bsz(128);
+	static char temp[bsz];
+	// hardcoded precision
+	snprintf(temp, bsz, "<space><x>%.12g</x><y>%.12g</y><z>%.12g</z></space>",
+		 $self->x(), $self->y(), $self->z());
 	return &temp[0];
       }
 
       char* __repr__() {
-	static char temp[1024]; // TODO std::string?
-	sprintf(temp, "(%.12g, %.12g, %.12g)", $self->x(), $self->y(), $self->z()); // TODO precision
+	static const int bsz(64);
+	static char temp[bsz];
+	// hardcoded precision
+	snprintf(temp, bsz, "(%.12g, %.12g, %.12g)", $self->x(), $self->y(), $self->z());
 	return &temp[0];
       }
     }
