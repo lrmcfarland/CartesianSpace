@@ -19,7 +19,7 @@ are supported.
 
     std::cout << "The force on the apple is " << F << " Newtons" << std::endl;
 
-A full set of examples can be found in [space_unittest.cpp](lib/Space/space_unittest.cpp).
+A full set of examples can be found in [space_unittest.cpp](libSpace/space_unittest.cpp).
 
 I have also wrapped this in python both manually by creating a new
 python type in [space.cpp](python/Manual/space.cpp), using boost
