@@ -90,15 +90,15 @@ namespace Cartesian {
 
     void          x(const double& rhs) {m_x = rhs;}
     const double& x() const            {return m_x;}
-    double        getX() const         {return m_x;} // for python wrappers, no const return
+    double        getX() const         {return m_x;} // for boost python wrappers
 
     void          y(const double& rhs) {m_y = rhs;}
     const double& y() const            {return m_y;}
-    double        getY() const         {return m_y;} // for python wrappers, no const return
+    double        getY() const         {return m_y;} // for boost python wrappers
 
     void          z(const double& rhs) {m_z = rhs;}
     const double& z() const            {return m_z;}
-    double        getZ() const         {return m_z;} // for python wrappers, no const return
+    double        getZ() const         {return m_z;} // for boost python wrappers
 
     // ----- bool operators -----
 
