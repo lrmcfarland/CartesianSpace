@@ -13,10 +13,10 @@ the break point and --gtest_filter with the GTEST name
     $ lldb space_unittest
     Current executable set to 'space_unittest' (x86_64).
 
-    (lldb) **b Cartesian::rotator::rotate**
+    (lldb) b Cartesian::rotator::rotate
     Breakpoint 1: where = libSpace.1.dylib`Cartesian::rotator::rotate(Cartesian::space const&, double const&) + 42 at space.cpp:202, address = 0x000000000000313a
 
-    (lldb) **run --gtest_filter=XRotationTest.Positive90AboutZ**
+    (lldb) run --gtest_filter=XRotationTest.Positive90AboutZ
     Process 27285 launched: '/Users/lrm/src/GitHub/CartesianSpace/libSpace/space_unittest' (x86_64)
     1 location added to breakpoint 1
     Note: Google Test filter = XRotationTest.Positive90AboutZ
