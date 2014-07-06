@@ -3,7 +3,9 @@
 This is my C++ implementation of a Cartesian space object for use in
 physics applications as a full featured C++ object. It is built around
 three doubles for x, y and z. The math operators are overloaded to
-support vector arithmetic.
+support vector arithmetic as well as various operator over-loadings like
+space * space giving the dot product result, a double, and space * double
+or double * space resulting in a scaled space vector.
 
 To debug with gdb (or lldb on OS X) using the gtest filter, use the
 full method name (in this example Cartesian::rotator::rotate) to set
