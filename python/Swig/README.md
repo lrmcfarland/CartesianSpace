@@ -1,6 +1,6 @@
-# Swig python wrappers
+# Swig Python wrappers
 
-This directory contains the [swig](http://swig.org) python wrappers for the
+This directory contains the [swig](http://swig.org) Python wrappers for the
 Cartesian space objects. Swig builds the wrappers from the [space.i](space.i)
 interface definition.
 

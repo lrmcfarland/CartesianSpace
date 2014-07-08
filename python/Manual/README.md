@@ -1,10 +1,10 @@
-# Manual python wrappers
+# Manual Python wrappers
 
-This directory contains the python wrappers for the Cartesian space
+This directory contains the Python wrappers for the Cartesian space
 objects.  It is built directly as described in the documentation
 [Extending Python with C or
 C++](https://docs.python.org/2/extending/extending.html). Here I
-created setup.py and built it with python using the command:
+created setup.py and built it with Python using the command:
 
     python setup.py build
 
@@ -12,7 +12,7 @@ setup.py assumes libSpace.dylib is built and located in ../../libSpace.
 This can be changed by setting the CARTESIAN_LIBRARY_PATH environment
 variable. See [setenv.sh](setenv.sh) for details.
 
-Once built you will need to add the module to your python path to use.
+Once built you will need to add the module to your Python path to use.
 setenv.sh show some examples of how I set this on my iMac during
 development.
 

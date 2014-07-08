@@ -22,7 +22,7 @@ the output operator<<() are supported.
 
 I have also use this to investigate how far I can push C++ features
 like operator overloading by [extending
-python](https://docs.python.org/2/extending/extending.html) directly
+Python](https://docs.python.org/2/extending/extending.html) directly
 and using the [boost](http://www.boost.org) and
 [swig](http://www.swig.org) tools. I created similar unit tests for
 each using the skip decorator when there was a feature that was not
@@ -32,7 +32,7 @@ tool.
 This is a submodule of my space craft simulation program Orbits. The
 C++ model can either display the simulation in 3D with OpenGL or
 investigate derived properties like distance from another body, fuel,
-speed or angular momentum over time, by using the python wrappers to
+speed or angular momentum over time, by using the Python wrappers to
 extract the features of interest, with out having to re-code the
 simulation.
 
