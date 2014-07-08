@@ -23,7 +23,10 @@ from str().
 
 ## Swig
 
-[swig](http://swig.org) python wrappers has an extensions feture that
+[swig](http://swig.org) python wrappers has an extensions feature that
 I can use to re-implement operator==() and repr() distinct from str(),
-but I have not found a way to driectly access the static data members
-Uo, Ux, Uy, and Uz. Adding methods should provide a work around.
+but I have not found a way to directly access the static data members
+Uo, Ux, Uy, and Uz. Adding methods should provide reasonable a work
+around. Also I do not see a way to make x, y and z look like
+properties the way I can with Boost or manually. They must be accessed
+through the x(), y() and z() accessors.
