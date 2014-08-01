@@ -214,15 +214,17 @@ namespace Cartesian {
   // ----- functions -----
   // ---------------------
 
-  const space operator+ (const space& lhs, const space& rhs);
-  const space operator- (const space& lhs, const space& rhs);
+  space operator+ (const space& lhs, const space& rhs);
+  space operator- (const space& lhs, const space& rhs);
+  space operator- (const space& rhs); // unitary minus
+
 
   // explicit double cast to force scale and not dot product of default space ctor.
-  const space operator* (const space& lhs, const double& rhs); // scale
-  const space operator* (const double& lhs, const space& rhs); // scale
+  space operator* (const space& lhs, const double& rhs); // scale
+  space operator* (const double& lhs, const space& rhs); // scale
 
-  const space operator/ (const space& lhs, const double& rhs) throw (DivideZeroError); // scale
-  const space operator/ (const double& lhs, const space& rhs) throw (DivideZeroError); // scale
+  space operator/ (const space& lhs, const double& rhs) throw (DivideZeroError); // scale
+  space operator/ (const double& lhs, const space& rhs) throw (DivideZeroError); // scale
 
   // vector products
   double operator* (const space& lhs, const space& rhs); // dot product

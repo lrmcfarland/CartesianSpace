@@ -1,5 +1,6 @@
 // ==========================================================
 // Filename:    space.cpp
+//
 // Description: Contains the python wrappers for the Cartesian::space
 //              objects.
 //
@@ -18,6 +19,7 @@
 //
 // See also:    http://docs.python.org/extending/newtypes.html
 //              http://docs.python.org/c-api/complex.html
+//              https://docs.python.org/2/reference/datamodel.html
 //
 // Author:      L.R. McFarland
 // Created:     2011aug14
@@ -107,7 +109,6 @@ PyObject* Space_str(PyObject* self) {
 PyObject* Space_repr(PyObject* self) {
 
   // TODO: make precision configuralble on build, not hardcoded.
-
   const unsigned int high_precision(12); // matches defaut %s precision for unit test
 
   const Cartesian::space& a_space(((Space*)self)->m_space);
@@ -255,6 +256,32 @@ static PyObject* nb_subtract(PyObject* o1, PyObject* o2) {
 }
 
 
+static PyObject* nb_negative(PyObject* o1) {
+  // Unitary minus
+
+  if (!is_SpaceType(o1)) {
+    Py_INCREF(Py_NotImplemented);
+    return Py_NotImplemented;
+  }
+
+  Space* result_space(NULL);
+
+  new_SpaceType(&result_space);
+
+  if (result_space == NULL) {
+    PyErr_SetString(space_exception, "nb_negative failed to create space");
+    return NULL;
+  }
+
+  Cartesian::space the_inverse = -((Space*)o1)->m_space;
+
+  // copy because m_space constructor has already run.
+  result_space->m_space = the_inverse;
+
+  return (PyObject*) result_space;
+}
+
+
 static PyObject* nb_multiply(PyObject* o1, PyObject* o2) {
   // This returns the dot product of the space vectors as a double.
   // This will not act as scale since it returns a double not a Space
@@ -270,8 +297,9 @@ static PyObject* nb_multiply(PyObject* o1, PyObject* o2) {
 
 
 static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
-  // This returns a Space object scaled by the divisor.
-  // o1 must be SpaceType, o2 a float or int.
+  // This returns a Space object scaled by the divisor.  o1 must be
+  // SpaceType, o2 a float or int otherwise this will raise a
+  // NotImplemented error.
 
   Space* result_space(NULL);
 
@@ -388,7 +416,7 @@ static PyNumberMethods space_as_number = {
   (binaryfunc) 0,  // nb_remainder
   (binaryfunc) 0,  // nb_divmod
   (ternaryfunc) 0, // nb_power
-  (unaryfunc) 0,   // nb_negative
+  (unaryfunc) nb_negative,
   (unaryfunc) 0,   // nb_positive
   (unaryfunc) 0,   // nb_absolute
   (inquiry) 0,     // nb_nonzero. Used by PyObject_IsTrue.

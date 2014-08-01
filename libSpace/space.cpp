@@ -85,41 +85,47 @@ Cartesian::space::space(const std::string& a,
 
 // ----- operators -----
 
-const Cartesian::space Cartesian::operator+(const Cartesian::space& lhs,
-					    const Cartesian::space& rhs) {
+Cartesian::space Cartesian::operator+(const Cartesian::space& lhs,
+				      const Cartesian::space& rhs) {
   return Cartesian::space(lhs.x() + rhs.x(),
 			  lhs.y() + rhs.y(),
 			  lhs.z() + rhs.z());
 }
 
-const Cartesian::space Cartesian::operator-(const Cartesian::space& lhs,
-					    const Cartesian::space& rhs) {
+Cartesian::space Cartesian::operator-(const Cartesian::space& lhs,
+				      const Cartesian::space& rhs) {
   return Cartesian::space(lhs.x() - rhs.x(),
 			  lhs.y() - rhs.y(),
 			  lhs.z() - rhs.z());
 }
 
+Cartesian::space Cartesian::operator-(const Cartesian::space& rhs) {
+  return Cartesian::space(-rhs.x(),
+			  -rhs.y(),
+			  -rhs.z());
+}
+
 // scale
-const Cartesian::space Cartesian::operator*(const Cartesian::space& lhs,
-					    const double& rhs) {
+Cartesian::space Cartesian::operator*(const Cartesian::space& lhs,
+				      const double& rhs) {
   return Cartesian::space(lhs.x() * rhs, lhs.y() * rhs, lhs.z() * rhs);
 }
 
-const Cartesian::space Cartesian::operator*(const double& lhs,
-					    const Cartesian::space& rhs) {
+ Cartesian::space Cartesian::operator*(const double& lhs,
+				       const Cartesian::space& rhs) {
   return Cartesian::operator*(rhs, lhs);
 }
 
-const Cartesian::space Cartesian::operator/(const Cartesian::space& lhs,
-					    const double& rhs)
+Cartesian::space Cartesian::operator/(const Cartesian::space& lhs,
+				      const double& rhs)
   throw (DivideZeroError) {
   if (rhs == 0)
     throw DivideZeroError();
   return Cartesian::space(lhs.x() / rhs, lhs.y() / rhs, lhs.z() / rhs);
 }
 
-const Cartesian::space Cartesian::operator/(const double& lhs,
-					    const Cartesian::space& rhs)
+Cartesian::space Cartesian::operator/(const double& lhs,
+				      const Cartesian::space& rhs)
   throw (DivideZeroError) {
   if (rhs.x() == 0 || rhs.y() == 0 || rhs.z() == 0)
     throw DivideZeroError();

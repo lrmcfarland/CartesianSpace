@@ -269,6 +269,15 @@ namespace {
     EXPECT_EQ(result, a);
   }
 
+  TEST_F(RandomSpace, UnitaryMinus) {
+    Cartesian::space result(-p1.x(),
+			    -p1.y(),
+			    -p1.z());
+    Cartesian::space a(p1);
+    a = -p1;
+    EXPECT_EQ(result, a);
+  }
+
   TEST_F(RandomSpace, SpaceMinusSpace) {
     Cartesian::space result(p1.x() - p2.x(),
 			    p1.y() - p2.y(),

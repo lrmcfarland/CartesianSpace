@@ -249,6 +249,15 @@ class TestSpace(unittest.TestCase):
         self.assertTrue(result == a)
 
 
+    def test_unitary_minus(self):
+        """Test space = -space"""
+        result = space.space(-self.p1.x,
+                             -self.p1.y,
+                             -self.p1.z)
+        a = -self.p1
+        self.assertTrue(result == a)
+
+
     @unittest.skip('TODO implicit conversion constructor?')
     def test_space_times_double(self):
         """Test space * double (scale)"""
