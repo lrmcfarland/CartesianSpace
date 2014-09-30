@@ -5,7 +5,7 @@
 # Created:     2013jun17
 # ===============================================================
 
-OSXFLAGS = env ARCHFLAGS="-arch x86_64 -Wno-error=unused-command-line-argument-hard-error-in-future"
+OSXFLAGS = env ARCHFLAGS="-arch x86_64"
 
 all: build
 
