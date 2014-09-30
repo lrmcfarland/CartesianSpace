@@ -1,7 +1,7 @@
 # Swig Python wrappers
 
-This directory contains the [swig](http://swig.org) Python wrappers for the
-Cartesian space objects. Swig builds the wrappers from the [space.i](space.i)
+This directory contains the [SWIG](http://swig.org) Python wrappers for the
+Cartesian space objects. SWIG builds the wrappers from the [space.i](space.i)
 interface definition.
 
 
@@ -15,7 +15,7 @@ library. This can simply be imported directly when the interpreter is
 run in this directory or setting the PYTHONPATH otherwise.
 
     $ python
-    Python 2.7.5 (default, Mar  9 2014, 22:15:05) 
+    Python 2.7.5 (default, Mar  9 2014, 22:15:05)
     [GCC 4.2.1 Compatible Apple LLVM 5.0 (clang-500.0.68)] on darwin
     Type "help", "copyright", "credits" or "license" for more information.
     >>> import space
@@ -23,7 +23,3 @@ run in this directory or setting the PYTHONPATH otherwise.
     >>> repr(foo)
     ‘(1, 2, 3)’
     >>>
-
-
-
-

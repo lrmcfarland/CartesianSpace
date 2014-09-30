@@ -13,7 +13,8 @@ ifeq ($(UNAME), Darwin)
 PYINCS = /System/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7
 endif
 
-all:
+test: space_module
+	python test_space.py -v
 
 space_module: space_swig
 	g++ -fPIC -I. -c space.cpp
@@ -22,10 +23,6 @@ space_module: space_swig
 
 space_swig: space.i space.h space.cpp
 	swig -c++ -python space.i
-
-
-test: space_module
-	python test_space.py -v
 
 clean:
 	-$(RM) space_wrap.cxx space_wrap.o

@@ -4,7 +4,7 @@
 # order, i.e. libs before pys.
 
 libs="./libSpace"
-pys="./python/Manual ./python/Boost ./python/Swig"
+pys="./python/Manual ./python/Boost ./python/SWIG"
 
 # ---------------------
 # ----- Utilities -----
