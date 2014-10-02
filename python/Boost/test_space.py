@@ -366,6 +366,12 @@ class TestSpace(unittest.TestCase):
         self.assertSpacesAreEqual(result, a)
 
 
+    def test_divide_by_zero(self):
+        """Test space / 0"""
+        a1 = self.p1
+        self.assertRaises(RuntimeError, lambda a: a / 0, a1)
+
+
 if __name__ == '__main__':
     random.seed(time.time())
     unittest.main()

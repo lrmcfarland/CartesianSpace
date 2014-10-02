@@ -345,6 +345,13 @@ class TestSpace(unittest.TestCase):
         self.assertTrue(result == a)
 
 
+    @unittest.skip('TODO pass exception through like boost')
+    def test_divide_by_zero(self):
+        """Test space / 0"""
+        a1 = self.p1
+        self.assertRaises(RuntimeError, lambda a: self.p1 / 0, a1)
+
+
 if __name__ == '__main__':
     random.seed(time.time())
     unittest.main()
