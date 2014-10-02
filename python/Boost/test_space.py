@@ -182,7 +182,7 @@ class TestSpace(unittest.TestCase):
     # ----------------------------
 
 
-    @unittest.skip('TODO wrap operator==()')
+    @unittest.skip('TODO boost wrap operator==()')
     def test_space_eq_space1(self):
         """Test space == space"""
         a = space.space(1, 2, 3)
@@ -190,7 +190,7 @@ class TestSpace(unittest.TestCase):
         self.assertTrue(a == b)
 
 
-    @unittest.skip('TODO wrap operator==()')
+    @unittest.skip('TODO boost wrap operator==()')
     def test_space_eq_space2(self):
         """Test space == space"""
         a = space.space(1, 2, 3)
@@ -198,7 +198,7 @@ class TestSpace(unittest.TestCase):
         self.assertFalse(a == b)
 
 
-    @unittest.skip('TODO wrap operator==()')
+    @unittest.skip('TODO boost wrap operator!=()')
     def test_space_ne_space1(self):
         """Test space != space"""
         a = space.space(1, 2, 3)
@@ -206,7 +206,7 @@ class TestSpace(unittest.TestCase):
         self.assertTrue(a != b)
 
 
-    @unittest.skip('TODO wrap operator==()')
+    @unittest.skip('TODO boost wrap operator!=()')
     def test_space_ne_space2(self):
         """Test space != space"""
         a = space.space(1, 2, 3)
@@ -214,7 +214,7 @@ class TestSpace(unittest.TestCase):
         self.assertFalse(a != b)
 
 
-    @unittest.skip('TODO wrap operator==()')
+    @unittest.skip('TODO boost wrap richcompare operators')
     def test_space_noop_richcompare_space(self):
         """Test space >, >=, <, <= space"""
         a = space.space(1, 2, 3)
@@ -249,6 +249,12 @@ class TestSpace(unittest.TestCase):
         self.assertSpacesAreEqual(result, a)
 
 
+    def test_space_plus_double(self):
+        """Test space + double"""
+        # no python conversion constructor for this implementation of space
+        self.assertRaises(TypeError, lambda a: self.p1 + self.p2.x)
+
+
     def test_space_minus_space(self):
         """Test space - space"""
         result = space.space(self.p1.x - self.p2.x,
@@ -266,6 +272,22 @@ class TestSpace(unittest.TestCase):
         a = self.p1
         a -= self.p2
         self.assertSpacesAreEqual(result, a)
+
+
+    @unittest.skip('TODO boost unitary minus?')
+    def test_unitary_minus(self):
+        """Test space = -space"""
+        result = space.space(-self.p1.x,
+                             -self.p1.y,
+                             -self.p1.z)
+        a = -self.p1
+        self.assertTrue(result == a)
+
+
+    def test_space_minus_double(self):
+        """Test space - double"""
+        # no python conversion constructor for this implementation of space
+        self.assertRaises(TypeError, lambda a: self.p1 - self.p2.x)
 
 
     @unittest.skip('TODO overload * double or no explicit constructor?')

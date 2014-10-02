@@ -255,6 +255,12 @@ class TestSpace(unittest.TestCase):
         self.assertTrue(result == a)
 
 
+    def test_space_plus_double(self):
+        """Test space + double"""
+        # no python conversion constructor for this implementation of space
+        self.assertRaises(TypeError, lambda a: self.p1 + self.p2.x)
+
+
     def test_space_minus_space(self):
         """Test space - space"""
         result = space.space(self.p1.x() - self.p2.x(),
@@ -272,6 +278,22 @@ class TestSpace(unittest.TestCase):
         a = self.p1
         a -= self.p2
         self.assertTrue(result == a)
+
+
+    @unittest.skip('TODO SWIG unitary minus?')
+    def test_unitary_minus(self):
+        """Test space = -space"""
+        result = space.space(-self.p1.x,
+                             -self.p1.y,
+                             -self.p1.z)
+        a = -self.p1
+        self.assertTrue(result == a)
+
+
+    def test_space_minus_double(self):
+        """Test space - double"""
+        # no python conversion constructor for this implementation of space
+        self.assertRaises(TypeError, lambda a: self.p1 - self.p2.x)
 
 
     @unittest.skip('TODO needs space.i wrapper')
