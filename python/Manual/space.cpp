@@ -32,19 +32,18 @@
 
 #include <space.h>
 
-
 // ========================
 // ===== constructors =====
 // ========================
 
-PyObject* space_exception;
+static PyObject* gSpaceException; // exception holder
+
 
 // Space object definition.
 typedef struct {
   PyObject_HEAD
   Cartesian::space m_space;
 } Space;
-
 
 // Forward declarations for as_number methods. Wraps SpaceType definition.
 static void new_SpaceType(Space** a_space);
@@ -94,26 +93,20 @@ static void Space_dealloc(Space* self) {
 // ===== print =====
 // =================
 
+// TODO: make precision configuralble on build, not hardcoded.
+static const unsigned int gPrintPrecision(12); // matches defaut %s precision for unit test
+
 PyObject* Space_str(PyObject* self) {
-
-  // TODO: make precision configuralble on build, not hardcoded.
-
-  const unsigned int high_precision(12); // matches defaut %s precision for unit test
-
   std::stringstream result;
-  result.precision(high_precision);
+  result.precision(gPrintPrecision);
   result << ((Space*)self)->m_space;
   return PyString_FromString(result.str().c_str());
 }
 
 PyObject* Space_repr(PyObject* self) {
-
-  // TODO: make precision configuralble on build, not hardcoded.
-  const unsigned int high_precision(12); // matches defaut %s precision for unit test
-
   const Cartesian::space& a_space(((Space*)self)->m_space);
   std::stringstream result;
-  result.precision(high_precision);
+  result.precision(gPrintPrecision);
   result << "("
          << a_space.x() << ", "
          << a_space.y() << ", "
@@ -136,12 +129,12 @@ static PyObject* Space_getx(Space* self, void* closure) {
 static int Space_setx(Space* self, PyObject* value, void* closure) {
 
   if (value == NULL) {
-    PyErr_SetString(space_exception, "Cannot delete x");
+    PyErr_SetString(gSpaceException, "Cannot delete x");
     return 0;
   }
 
   if (!PyFloat_Check(value) && !PyInt_Check(value)) {
-    PyErr_SetString(space_exception, "x must be a float");
+    PyErr_SetString(gSpaceException, "x must be a float");
     return 0;
   }
 
@@ -161,12 +154,12 @@ static PyObject* Space_gety(Space* self, void* closure) {
 static int Space_sety(Space* self, PyObject* value, void* closure) {
 
   if (value == NULL) {
-    PyErr_SetString(space_exception, "Cannot delete y");
+    PyErr_SetString(gSpaceException, "Cannot delete y");
     return 0;
   }
 
   if (!PyFloat_Check(value) && !PyInt_Check(value)) {
-    PyErr_SetString(space_exception, "y must be a float");
+    PyErr_SetString(gSpaceException, "y must be a float");
     return 0;
   }
 
@@ -186,12 +179,12 @@ static PyObject* Space_getz(Space* self, void* closure) {
 static int Space_setz(Space* self, PyObject* value, void* closure) {
 
   if (value == NULL) {
-    PyErr_SetString(space_exception, "Cannot delete z");
+    PyErr_SetString(gSpaceException, "Cannot delete z");
     return 0;
   }
 
   if (!PyFloat_Check(value) && !PyInt_Check(value)) {
-    PyErr_SetString(space_exception, "z must be a float");
+    PyErr_SetString(gSpaceException, "z must be a float");
     return 0;
   }
 
@@ -217,7 +210,7 @@ static PyObject* nb_add(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(space_exception, "nb_add failed to create space");
+    PyErr_SetString(gSpaceException, "nb_add failed to create space");
     return NULL;
   }
 
@@ -242,7 +235,7 @@ static PyObject* nb_subtract(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(space_exception, "nb_subtract failed to create space");
+    PyErr_SetString(gSpaceException, "nb_subtract failed to create space");
     return NULL;
   }
 
@@ -269,7 +262,7 @@ static PyObject* nb_negative(PyObject* o1) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(space_exception, "nb_negative failed to create space");
+    PyErr_SetString(gSpaceException, "nb_negative failed to create space");
     return NULL;
   }
 
@@ -306,7 +299,7 @@ static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(space_exception, "nb_divide failed to create space");
+    PyErr_SetString(gSpaceException, "nb_divide failed to create space");
     return NULL;
   }
 
@@ -316,7 +309,7 @@ static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
       result_space->m_space = ((Space*)o1)->m_space / PyFloat_AsDouble(o2);
     } catch (Cartesian::DivideZeroError& err) {
       Py_DECREF(result_space);
-      PyErr_SetString(space_exception, "nb_divide attempted divide by zero");
+      PyErr_SetString(gSpaceException, "nb_divide attempted divide by zero");
       return NULL;
     }
 
@@ -534,7 +527,7 @@ static PyObject* cross(PyObject* self, PyObject *args) {
   result_space = PyObject_New(Space, &SpaceType); // alloc and inits
 
   if (result_space == NULL) {
-    PyErr_SetString(space_exception, "cross failed to create space.");
+    PyErr_SetString(gSpaceException, "cross failed to create space.");
     return NULL;
   }
 
@@ -611,7 +604,7 @@ static PyObject* normalized(PyObject* self, PyObject *args) {
   result_space = PyObject_New(Space, &SpaceType); // alloc and inits
 
   if (result_space == NULL) {
-    PyErr_SetString(space_exception, "normalized failed to create space.");
+    PyErr_SetString(gSpaceException, "normalized failed to create space.");
     return NULL;
   }
 
@@ -653,7 +646,7 @@ PyObject* space_create(const Cartesian::space& a_space) {
 
   // TODO exception handle this
   if (py_space == NULL){
-    PyErr_SetString(space_exception, "failed to create space.");
+    PyErr_SetString(gSpaceException, "failed to create space.");
     return NULL;
   }
 
@@ -687,9 +680,9 @@ PyMODINIT_FUNC initspace(void) {
 
   // errors
   char eMsgStr[] = "space.error";
-  space_exception = PyErr_NewException(eMsgStr, NULL, NULL);
-  Py_INCREF(space_exception);
-  PyModule_AddObject(m, "space_error", space_exception);
+  gSpaceException = PyErr_NewException(eMsgStr, NULL, NULL);
+  Py_INCREF(gSpaceException);
+  PyModule_AddObject(m, "space_error", gSpaceException);
 
   // constants
   PyObject* space_Uo(NULL);
