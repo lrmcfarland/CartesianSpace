@@ -208,7 +208,7 @@ static PyObject* nb_add(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(sSpaceException, "nb_add failed to create space");
+    PyErr_SetString(sSpaceException, "add failed to create space");
     return NULL;
   }
 
@@ -234,7 +234,7 @@ static PyObject* nb_subtract(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(sSpaceException, "nb_subtract failed to create space");
+    PyErr_SetString(sSpaceException, "subtract failed to create space");
     return NULL;
   }
 
@@ -261,7 +261,7 @@ static PyObject* nb_negative(PyObject* o1) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(sSpaceException, "nb_negative failed to create space");
+    PyErr_SetString(sSpaceException, "negative failed to create space");
     return NULL;
   }
 
@@ -298,7 +298,7 @@ static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(sSpaceException, "nb_divide failed to create space");
+    PyErr_SetString(sSpaceException, "divide failed to create space");
     return NULL;
   }
 
@@ -308,7 +308,7 @@ static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
       result_space->m_space = ((Space*)o1)->m_space / PyFloat_AsDouble(o2);
     } catch (Cartesian::DivideZeroError& err) {
       Py_DECREF(result_space);
-      PyErr_SetString(sSpaceException, "nb_divide attempted divide by zero");
+      PyErr_SetString(sSpaceException, "divide attempted divide by zero");
       return NULL;
     }
 
@@ -345,7 +345,7 @@ static PyObject* tp_richcompare(PyObject* o1, PyObject* o2, int op) {
 
   } else {
 
-    PyErr_SetString(PyExc_TypeError, "tp_richcompare op not supported");
+    PyErr_SetString(PyExc_TypeError, "richcompare op not supported");
     return NULL;
 
   }
