@@ -32,12 +32,25 @@
 
 #include <space.h>
 
+
+// ===================
+// ===== statics =====
+// ===================
+
+static PyObject* sSpaceException; // exception holder
+
+// char* kwlist[] init strings
+static char sXstr[] = "x";
+static char sYstr[] = "y";
+static char sZstr[] = "z";
+
+// TODO: make precision configuralble on build, not hardcoded.
+static const unsigned int sPrintPrecision(12); // matches defaut %s precision for unit test
+
+
 // ========================
 // ===== constructors =====
 // ========================
-
-static PyObject* gSpaceException; // exception holder
-
 
 // Space object definition.
 typedef struct {
@@ -49,31 +62,19 @@ typedef struct {
 static void new_SpaceType(Space** a_space);
 static int is_SpaceType(PyObject* a_space);
 
-
 static PyObject* Space_new(PyTypeObject* type, PyObject* args, PyObject* kwds) {
-
-  // caller owns this, m_space takes care of own memory, no py objects created
-
   Space* self(NULL);
   self = (Space*)type->tp_alloc(type, 0);
-
   return (PyObject*)self;
 }
 
-static char gXstr[] = "x";
-static char gYstr[] = "y";
-static char gZstr[] = "z";
-
 static int Space_init(Space* self, PyObject* args, PyObject* kwds) {
-
-  // Cartesian::space data members are private and not directly
-  // accessible, so a wrapper is needed.
 
   double x(0);
   double y(0);
   double z(0);
 
-  static char* kwlist[] = {gXstr, gYstr, gZstr, NULL};
+  static char* kwlist[] = {sXstr, sYstr, sZstr, NULL};
 
   if (! PyArg_ParseTupleAndKeywords(args, kwds, "|ddd", kwlist, &x, &y, &z))
     return -1;
@@ -93,12 +94,9 @@ static void Space_dealloc(Space* self) {
 // ===== print =====
 // =================
 
-// TODO: make precision configuralble on build, not hardcoded.
-static const unsigned int gPrintPrecision(12); // matches defaut %s precision for unit test
-
 PyObject* Space_str(PyObject* self) {
   std::stringstream result;
-  result.precision(gPrintPrecision);
+  result.precision(sPrintPrecision);
   result << ((Space*)self)->m_space;
   return PyString_FromString(result.str().c_str());
 }
@@ -106,7 +104,7 @@ PyObject* Space_str(PyObject* self) {
 PyObject* Space_repr(PyObject* self) {
   const Cartesian::space& a_space(((Space*)self)->m_space);
   std::stringstream result;
-  result.precision(gPrintPrecision);
+  result.precision(sPrintPrecision);
   result << "("
          << a_space.x() << ", "
          << a_space.y() << ", "
@@ -129,12 +127,12 @@ static PyObject* Space_getx(Space* self, void* closure) {
 static int Space_setx(Space* self, PyObject* value, void* closure) {
 
   if (value == NULL) {
-    PyErr_SetString(gSpaceException, "Cannot delete x");
+    PyErr_SetString(sSpaceException, "Cannot delete x");
     return 0;
   }
 
   if (!PyFloat_Check(value) && !PyInt_Check(value)) {
-    PyErr_SetString(gSpaceException, "x must be a float");
+    PyErr_SetString(sSpaceException, "x must be a float");
     return 0;
   }
 
@@ -154,12 +152,12 @@ static PyObject* Space_gety(Space* self, void* closure) {
 static int Space_sety(Space* self, PyObject* value, void* closure) {
 
   if (value == NULL) {
-    PyErr_SetString(gSpaceException, "Cannot delete y");
+    PyErr_SetString(sSpaceException, "Cannot delete y");
     return 0;
   }
 
   if (!PyFloat_Check(value) && !PyInt_Check(value)) {
-    PyErr_SetString(gSpaceException, "y must be a float");
+    PyErr_SetString(sSpaceException, "y must be a float");
     return 0;
   }
 
@@ -179,12 +177,12 @@ static PyObject* Space_getz(Space* self, void* closure) {
 static int Space_setz(Space* self, PyObject* value, void* closure) {
 
   if (value == NULL) {
-    PyErr_SetString(gSpaceException, "Cannot delete z");
+    PyErr_SetString(sSpaceException, "Cannot delete z");
     return 0;
   }
 
   if (!PyFloat_Check(value) && !PyInt_Check(value)) {
-    PyErr_SetString(gSpaceException, "z must be a float");
+    PyErr_SetString(sSpaceException, "z must be a float");
     return 0;
   }
 
@@ -210,7 +208,7 @@ static PyObject* nb_add(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(gSpaceException, "nb_add failed to create space");
+    PyErr_SetString(sSpaceException, "nb_add failed to create space");
     return NULL;
   }
 
@@ -222,6 +220,7 @@ static PyObject* nb_add(PyObject* o1, PyObject* o2) {
   return (PyObject*) result_space;
 
 }
+
 
 static PyObject* nb_subtract(PyObject* o1, PyObject* o2) {
 
@@ -235,7 +234,7 @@ static PyObject* nb_subtract(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(gSpaceException, "nb_subtract failed to create space");
+    PyErr_SetString(sSpaceException, "nb_subtract failed to create space");
     return NULL;
   }
 
@@ -262,7 +261,7 @@ static PyObject* nb_negative(PyObject* o1) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(gSpaceException, "nb_negative failed to create space");
+    PyErr_SetString(sSpaceException, "nb_negative failed to create space");
     return NULL;
   }
 
@@ -299,7 +298,7 @@ static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
-    PyErr_SetString(gSpaceException, "nb_divide failed to create space");
+    PyErr_SetString(sSpaceException, "nb_divide failed to create space");
     return NULL;
   }
 
@@ -309,7 +308,7 @@ static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
       result_space->m_space = ((Space*)o1)->m_space / PyFloat_AsDouble(o2);
     } catch (Cartesian::DivideZeroError& err) {
       Py_DECREF(result_space);
-      PyErr_SetString(gSpaceException, "nb_divide attempted divide by zero");
+      PyErr_SetString(sSpaceException, "nb_divide attempted divide by zero");
       return NULL;
     }
 
@@ -394,9 +393,9 @@ static PyMemberDef Space_members[] = {
 
 
 static PyGetSetDef Space_getseters[] = {
-    {gXstr, (getter)Space_getx, (setter)Space_setx, gXstr, NULL},
-    {gYstr, (getter)Space_gety, (setter)Space_sety, gYstr, NULL},
-    {gZstr, (getter)Space_getz, (setter)Space_setz, gZstr, NULL},
+    {sXstr, (getter)Space_getx, (setter)Space_setx, sXstr, NULL},
+    {sYstr, (getter)Space_gety, (setter)Space_sety, sYstr, NULL},
+    {sZstr, (getter)Space_getz, (setter)Space_setz, sZstr, NULL},
     {NULL}  /* Sentinel */
 };
 
@@ -527,7 +526,7 @@ static PyObject* cross(PyObject* self, PyObject *args) {
   result_space = PyObject_New(Space, &SpaceType); // alloc and inits
 
   if (result_space == NULL) {
-    PyErr_SetString(gSpaceException, "cross failed to create space.");
+    PyErr_SetString(sSpaceException, "cross failed to create space.");
     return NULL;
   }
 
@@ -604,7 +603,7 @@ static PyObject* normalized(PyObject* self, PyObject *args) {
   result_space = PyObject_New(Space, &SpaceType); // alloc and inits
 
   if (result_space == NULL) {
-    PyErr_SetString(gSpaceException, "normalized failed to create space.");
+    PyErr_SetString(sSpaceException, "normalized failed to create space.");
     return NULL;
   }
 
@@ -646,7 +645,7 @@ PyObject* space_create(const Cartesian::space& a_space) {
 
   // TODO exception handle this
   if (py_space == NULL){
-    PyErr_SetString(gSpaceException, "failed to create space.");
+    PyErr_SetString(sSpaceException, "failed to create space.");
     return NULL;
   }
 
@@ -680,9 +679,9 @@ PyMODINIT_FUNC initspace(void) {
 
   // errors
   char eMsgStr[] = "space.error";
-  gSpaceException = PyErr_NewException(eMsgStr, NULL, NULL);
-  Py_INCREF(gSpaceException);
-  PyModule_AddObject(m, "space_error", gSpaceException);
+  sSpaceException = PyErr_NewException(eMsgStr, NULL, NULL);
+  Py_INCREF(sSpaceException);
+  PyModule_AddObject(m, "space_error", sSpaceException);
 
   // constants
   PyObject* space_Uo(NULL);
