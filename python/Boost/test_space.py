@@ -90,6 +90,9 @@ class TestSpace(unittest.TestCase):
         self.assertSpacesAreEqual(self.p1, a)
 
 
+    # TODO copy constructor
+
+
     def test_copy_assign1(self):
         """Test copy assignment operator"""
         a = self.p1
@@ -252,7 +255,7 @@ class TestSpace(unittest.TestCase):
     def test_space_plus_double(self):
         """Test space + double"""
         # no python conversion constructor for this implementation of space
-        self.assertRaises(TypeError, lambda a: self.p1 + self.p2.x)
+        self.assertRaises(TypeError, lambda: self.p1 + self.p2.x)
 
 
     def test_space_minus_space(self):
@@ -287,7 +290,7 @@ class TestSpace(unittest.TestCase):
     def test_space_minus_double(self):
         """Test space - double"""
         # no python conversion constructor for this implementation of space
-        self.assertRaises(TypeError, lambda a: self.p1 - self.p2.x)
+        self.assertRaises(TypeError, lambda: self.p1 - self.p2.x)
 
 
     @unittest.skip('TODO overload * double or no explicit constructor?')

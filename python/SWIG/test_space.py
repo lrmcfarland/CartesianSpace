@@ -82,6 +82,10 @@ class TestSpace(unittest.TestCase):
         a.z(self.p1.z())
         self.assertTrue(self.p1 == a)
 
+
+    # TODO copy constructor?
+
+
     def test_copy_assign1(self):
         """Test copy assignment operator"""
         a = self.p1

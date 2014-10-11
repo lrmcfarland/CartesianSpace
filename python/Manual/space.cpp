@@ -659,14 +659,12 @@ PyObject* space_create(const Cartesian::space& a_space) {
 // PyMODINIT_FUNC declares extern "C" too.
 PyMODINIT_FUNC initspace(void) {
 
-  PyObject* m;
+  PyObject* m(Py_InitModule3("space", space_module_methods, "python wrappers for space objects."));
+
 
   SpaceType.tp_new = PyType_GenericNew;
   if (PyType_Ready(&SpaceType) < 0)
     return;
-
-  m = Py_InitModule3("space", space_module_methods,
-		     "python wrappers for space objects.");
 
   Py_INCREF(&SpaceType);
   PyModule_AddObject(m, "space", (PyObject *)&SpaceType);

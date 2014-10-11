@@ -81,6 +81,8 @@ class TestSpace(unittest.TestCase):
         a.z = self.p1.z
         self.assertTrue(self.p1 == a)
 
+    # TODO copy constructor?
+
     def test_copy_assign1(self):
         """Test copy assignment operator"""
         a = self.p1
@@ -233,7 +235,7 @@ class TestSpace(unittest.TestCase):
     def test_space_plus_double(self):
         """Test space + double"""
         # no python conversion constructor for this implementation of space
-        self.assertRaises(TypeError, lambda a: self.p1 + self.p2.x)
+        self.assertRaises(TypeError, lambda: self.p1 + self.p2.x)
 
 
     def test_space_minus_space(self):
@@ -267,7 +269,7 @@ class TestSpace(unittest.TestCase):
     def test_space_minus_double(self):
         """Test space - double"""
         # no python conversion constructor for this implementation of space
-        self.assertRaises(TypeError, lambda a: self.p1 - self.p2.x)
+        self.assertRaises(TypeError, lambda: self.p1 - self.p2.x)
 
 
     @unittest.skip('TODO implicit conversion constructor?')
@@ -345,11 +347,12 @@ class TestSpace(unittest.TestCase):
         self.assertTrue(result == a)
 
 
-    @unittest.skip('TODO pass exception through like boost')
+    @unittest.skip('TODO catch error like boost')
     def test_divide_by_zero(self):
         """Test space / 0"""
+        # raises error: divide attempted divide by zero
         a1 = self.p1
-        self.assertRaises(RuntimeError, lambda a: self.p1 / 0, a1)
+        self.assertRaises(RuntimeError, lambda a: a / 0, a1)
 
 
 if __name__ == '__main__':
