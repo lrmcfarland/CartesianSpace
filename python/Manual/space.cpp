@@ -294,7 +294,6 @@ static PyObject* nb_divide(PyObject* o1, PyObject* o2) {
   // NotImplemented error.
 
   Space* result_space(NULL);
-
   new_SpaceType(&result_space);
 
   if (result_space == NULL) {
@@ -510,8 +509,7 @@ static int is_SpaceType(PyObject* a_space) {
 // ----- cross product -----
 // -------------------------
 
-PyDoc_STRVAR(space_cross__doc__,
-             "Returns the cross product of two space objects");
+PyDoc_STRVAR(space_cross__doc__, "Returns the cross product of two space objects");
 
 static PyObject* cross(PyObject* self, PyObject *args) {
 
@@ -543,8 +541,7 @@ static PyObject* cross(PyObject* self, PyObject *args) {
 // ----- dot product -----
 // -----------------------
 
-PyDoc_STRVAR(space_dot__doc__,
-             "Returns the dot product of two space objects");
+PyDoc_STRVAR(space_dot__doc__, "Returns the dot product of two space objects");
 
 static PyObject* dot(PyObject* self, PyObject *args) {
 
@@ -567,8 +564,7 @@ static PyObject* dot(PyObject* self, PyObject *args) {
 // ----- magnitude -----
 // ---------------------
 
-PyDoc_STRVAR(space_magnitude__doc__,
-             "Returns the magnitude of the space object");
+PyDoc_STRVAR(space_magnitude__doc__, "Returns the magnitude of the space object");
 
 static PyObject* magnitude(PyObject* self, PyObject *args) {
 
@@ -588,8 +584,7 @@ static PyObject* magnitude(PyObject* self, PyObject *args) {
 // ----- normalized -----
 // ----------------------
 
-PyDoc_STRVAR(space_normalized__doc__,
-             "Returns the normalized version of the space object");
+PyDoc_STRVAR(space_normalized__doc__, "Returns the normalized version of the space object");
 
 static PyObject* normalized(PyObject* self, PyObject *args) {
 
