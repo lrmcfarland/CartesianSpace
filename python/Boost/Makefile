@@ -18,6 +18,5 @@ test: build test_space.py
 clean:
 	rm -rf build
 
-clobber:
-	rm -rf build
+clobber: clean
 	rm *~

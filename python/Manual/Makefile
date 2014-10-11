@@ -19,6 +19,5 @@ test: build
 clean:
 	rm -rf build
 
-clobber:
-	rm -rf build
+clobber: clean
 	rm *~
