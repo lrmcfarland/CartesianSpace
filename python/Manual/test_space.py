@@ -81,15 +81,22 @@ class TestSpace(unittest.TestCase):
         a.z = self.p1.z
         self.assertTrue(self.p1 == a)
 
-    # TODO copy constructor?
 
-    def test_copy_assign1(self):
-        """Test copy assignment operator"""
+    @unittest.skip('TODO copy constructor')
+    def test_copy_constructor_1(self):
+        """Test copy constructor"""
+        a = space.space(self.p1)
+        self.assertSpacesAreEqual(self.p1, a)
+
+
+    def test_copy_assign_1(self):
+        """Test copy assignment operator.
+        This is a Python reference copy not a deep copy."""
         a = self.p1
         self.assertTrue(self.p1 == a)
 
 
-    def test_copy_assign2(self):
+    def test_copy_assign_2(self):
         """Test copy assignment operator is shallow"""
         a = space.space(1,2,3)
         b = a
@@ -98,7 +105,7 @@ class TestSpace(unittest.TestCase):
         self.assertEqual(4, b.x)
 
 
-    def test_copy_assign3(self):
+    def test_copy_assign_3(self):
         """Test copy assignment operator can use deep copy"""
         import copy
         a = space.space(1,2,3)
@@ -169,6 +176,21 @@ class TestSpace(unittest.TestCase):
     # ----------------------------
     # ----- test richcompare -----
     # ----------------------------
+
+    def test_space_eq_space(self):
+        """Test space == space"""
+        result = space.space(self.p1.x + self.p2.x,
+                             self.p1.y + self.p2.y,
+                             self.p1.z + self.p2.z)
+        a = self.p1 + self.p2
+        self.assertTrue(result == a)
+
+
+    def test_space_ne_space(self):
+        """Test space != space"""
+        a = space.space(1, 2, 3)
+        b = space.space(-1, 2, 3)
+        self.assertTrue(a != b)
 
 
     def test_space_eq_space1(self):
@@ -272,7 +294,7 @@ class TestSpace(unittest.TestCase):
         self.assertRaises(TypeError, lambda: self.p1 - self.p2.x)
 
 
-    @unittest.skip('TODO implicit conversion constructor?')
+    @unittest.skip('TODO implicit conversion constructor to make double space(x)?')
     def test_space_times_double(self):
         """Test space * double (scale)"""
         scale = 0.5
