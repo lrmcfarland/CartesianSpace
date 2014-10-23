@@ -370,11 +370,20 @@ class TestSpace(unittest.TestCase):
 
 
     @unittest.skip('TODO catch error like boost')
-    def test_divide_by_zero(self):
+    def test_divide_by_zero1(self):
         """Test space / 0"""
-        # raises error: divide attempted divide by zero
+        # raises space.error: divide attempted divide by zero
         a1 = self.p1
         self.assertRaises(RuntimeError, lambda a: a / 0, a1)
+
+
+    def test_divide_by_zero2(self):
+        """Test space / 0"""
+        # TODO catch more specific exception
+        try:
+            a1 = self.p1 / 0
+        except Exception, err:
+            print type(err), err
 
 
 if __name__ == '__main__':
