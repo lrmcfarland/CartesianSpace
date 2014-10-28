@@ -671,10 +671,10 @@ PyMODINIT_FUNC initspace(void) {
 
 
   // errors
-  char eMsgStr[] = "space.error";
+  char eMsgStr[] = "space.Error";
   sSpaceException = PyErr_NewException(eMsgStr, NULL, NULL);
   Py_INCREF(sSpaceException);
-  PyModule_AddObject(m, "space_error", sSpaceException);
+  PyModule_AddObject(m, "Error", sSpaceException);
 
   // constants
   PyObject* space_Uo(NULL);
