@@ -79,13 +79,18 @@ space_unittest: space_unittest.o $(TARGET_D)
 space_unittest.o: space_unittest.cpp
 	g++ -I$(GTEST_DIR)/include -I . -g -c space_unittest.cpp
 
+example1: example1.o $(TARGET_D)
+	g++ example1.o -o example1 -L. -lspace
+
 clean:
-	-$(RM) mepsilon
-	-$(RM) mepsilon.o
 	-$(RM) main
 	-$(RM) main.o
 	-$(RM) space_unittest
 	-$(RM) space_unittest.o
+	-$(RM) mepsilon
+	-$(RM) mepsilon.o
+	-$(RM) example1
+	-$(RM) example1.o
 	-$(RM) $(OBJECTS)
 	-$(RM) $(TARGET_D0) $(TARGET_D1) $(TARGET_D2)
 	-$(RM) $(TARGET_D)
