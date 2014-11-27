@@ -1,5 +1,7 @@
 # Cartesian Space
 
+## Superseded by [Coordinates](https://github.com/lrmcfarland/Coordinates)
+
 ## Features
 
 This is my take on creating a Cartesian three space vector for use in
